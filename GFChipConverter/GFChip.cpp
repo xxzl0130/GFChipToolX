@@ -5,8 +5,6 @@
 #include "split.h"
 using namespace std;
 
-const string rules[2] = { "InfinityFrost", "FatalChapters" };
-
 string toLower(const string& str)
 {
     string ans;
@@ -46,7 +44,7 @@ std::string GFChip::toSaveCode()
     code += to_string(this->blockFil) + ',';
     code += to_string(this->blockDmg) + ',';
     code += to_string(this->blockDbk) + ',';
-    code += to_string(this->weight) + '&';
+    code += to_string(this->weight) ;
     return code;
 }
 
@@ -170,7 +168,7 @@ void GFChip::fromExcelLine(const std::string& line)
 GFChip GFChip::createFromExcelLine(const std::string& line)
 {
     GFChip chip;
-    auto list = split(line,'c');
+    auto list = split(line,',');
     if (list.size() < 6)
     {// error, elements not enough
         return GFChip();

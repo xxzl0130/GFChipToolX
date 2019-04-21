@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
 
-// chip save code rules by GFTool
-extern const std::string rules[2];
-
 class GFChip
 {
 public:
