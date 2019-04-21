@@ -24,11 +24,11 @@ public:
     int blockDbk;       // defence-breaking block num
     int weight;         // weight, currently not used, keep same with GFTool
 
-    // to save coed used by GFTool
+    // to save coed used by GFTool, without end char '&'
     std::string toSaveCode();
-    // create from save coed used by GFTool
+    // create from save coed used by GFTool, without '&', '[', ']', like "1,1,551,120,0,2,0,1,2,1"
     void fromSaveCode(const std::string& code);
-    // create from save coed used by GFTool
+    // create from save coed used by GFTool, without '&', '[', ']', like "1,1,551,120,0,2,0,1,2,1"
     static GFChip createFromSaveCode(const std::string& code);
 
     // to excel line by cups

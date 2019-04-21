@@ -116,9 +116,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GFChip.h" />
+    <ClInclude Include="split.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFChip.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="split.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
