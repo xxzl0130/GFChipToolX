@@ -32,7 +32,7 @@ GFChip::~GFChip()
 {
 }
 
-std::string GFChip::toSaveCode()
+std::string GFChip::toSaveCode() const
 {
     string code;
     code += to_string(this->chipNum) + ',';
@@ -76,7 +76,7 @@ GFChip GFChip::createFromSaveCode(const std::string& code)
     return chip;
 }
 
-std::string GFChip::toExcelLine()
+std::string GFChip::toExcelLine() const
 {
     string line;
     line += to_string(this->chipNum) + ',';
@@ -87,7 +87,10 @@ std::string GFChip::toExcelLine()
             //41 to 4a, 42 to 4b
             line += to_string(4) + char('a' + this->chipType - 41) + ',';
         }
-        line += to_string(this->chipType) + ',';
+        else
+        {
+            line += to_string(this->chipType) + ',';
+        }
     }
     else//551
     {
