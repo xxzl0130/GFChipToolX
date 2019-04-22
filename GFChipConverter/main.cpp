@@ -121,12 +121,14 @@ void helperWeb2Excel()
 
     fstream fout;
     fout.open("RedChips.csv", ios::out);
+    fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
     for(const auto& it : redChips)
     {
         fout << it.toExcelLine() << endl;
     }
     fout.close();
     fout.open("BlueChips.csv", ios::out);
+    fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
     for (const auto& it : blueChips)
     {
         fout << it.toExcelLine() << endl;

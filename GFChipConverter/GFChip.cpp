@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <cctype>
+#include <cmath>
 #include "split.h"
 using namespace std;
 
@@ -67,6 +68,14 @@ GFChip GFChip::createFromSaveCode(const std::string& code)
     chip.chipClass = atoi(list[2].c_str());
     chip.chipType = atoi(list[3].c_str());
     chip.chipLevel = atoi(list[4].c_str());
+    if(chip.chipLevel > 20)
+    {
+        chip.chipLevel = 20;
+    }
+    else if(chip.chipLevel < 0)
+    {
+        chip.chipLevel = 0;
+    }
     chip.blockAcu = atoi(list[5].c_str());
     chip.blockFil = atoi(list[6].c_str());
     chip.blockDmg = atoi(list[7].c_str());
@@ -80,6 +89,7 @@ std::string GFChip::toExcelLine() const
 {
     string line;
     line += to_string(this->chipNum) + ',';
+    double den = den56;
     if (this->chipClass == 56)
     {
         if(this->chipType > 40)
@@ -94,6 +104,7 @@ std::string GFChip::toExcelLine() const
     }
     else//551
     {
+        den = den551;
         switch(this->chipType)
         {
         case 11:
@@ -125,30 +136,39 @@ std::string GFChip::toExcelLine() const
             break;
         case 81:
             line += "b";
+            den = den552;
             break;
         case 82:
             line += "d";
+            den = den552;
             break;
         case 9:
             line += "I";
+            den = den552;
             break;
         case 10:
             line += "C";
+            den = den552;
             break;
         case 111:
             line += "Z";
+            den = den552;
             break;
         case 112:
             line += "Z-";
+            den = den552;
             break;
         case 120:
             line += "V";
+            den = den552;
             break;
         case 131:
             line += "L";
+            den = den552;
             break;
         case 132:
             line += "L-";
+            den = den552;
             break;
         default://error
             return string();
@@ -160,6 +180,11 @@ std::string GFChip::toExcelLine() const
     line += to_string(this->blockAcu) + ',';
     line += to_string(this->blockFil) + ',';
     line += to_string(this->chipLevel) + ',';
+    line += to_string(ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockFil * argFil * den) * argLv[chipLevel])) + ',';
+
     return line;
 }
 
@@ -291,6 +316,14 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
         chip.chipLevel = atoi(list[6].c_str());
     }
     else
+    {
+        chip.chipLevel = 0;
+    }
+    if (chip.chipLevel > 20)
+    {
+        chip.chipLevel = 20;
+    }
+    else if (chip.chipLevel < 0)
     {
         chip.chipLevel = 0;
     }
