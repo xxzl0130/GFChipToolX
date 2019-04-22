@@ -5,6 +5,7 @@
 #include "split.h"
 #include "GFChip.h"
 #include "stdlib.h"
+#include <ctype.h>
 using namespace std;
 
 char buffer[102400];
@@ -72,37 +73,67 @@ void helperExcel2Web()
 
 void helperWeb2Excel()
 {
-    fstream fout;
-    fout.open("SaveCode.csv", ios::out);
-    std::vector<GFChip> chips;
-
     start2:
     system("cls");
     gets_s(buffer, sizeof(buffer));//clear input
     cout << "功能：网页（乐章）版  ====> Excel（杯具）版" << endl;
     cout << "请直接将储存代码粘贴在此处，按回车键确认。" << endl;
-    
-    gets_s(buffer, sizeof(buffer));
-    if(strlen(buffer) < 10)
+
+    memset(buffer, 0, sizeof(buffer));
+    int i = 0;
+    for(i = 0;(buffer[i] = getchar()) != ']';++i)
+    {
+        if(!isalpha(buffer[i]) && !isdigit(buffer[i]) && buffer[i] != ',' && buffer[i] != '[' && buffer[i] != '&')
+        {
+            //skip this char
+            --i;
+        }
+    }
+
+    if(i < 10)
     {
         //error, restart
         goto start2;
     }
-    auto list = split(string(buffer + 3, strlen(buffer) - 3 - 4),//skip begin and end
+    auto list = split(string(buffer + 2, strlen(buffer) - 3 - 2),//skip begin and end
             '&');
+
+    std::vector<GFChip> redChips,blueChips;
     for(const auto& it : list)
     {
         // create chips
-        chips.push_back(GFChip::createFromSaveCode(it));
+        auto chip = GFChip::createFromSaveCode(it);
+        if(chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110)
+        {//5-block-2-type not used in excel
+            continue;
+        }
+        if (chip.chipColor == 2)
+        {
+            chip.chipNum = redChips.size() + 1;
+            redChips.push_back(GFChip::createFromSaveCode(it));
+        }
+        else
+        {
+            chip.chipNum = blueChips.size() + 1;
+            blueChips.push_back(chip);
+        }
     }
 
-    for(const auto& it : chips)
+    fstream fout;
+    fout.open("RedChips.csv", ios::out);
+    for(const auto& it : redChips)
+    {
+        fout << it.toExcelLine() << endl;
+    }
+    fout.close();
+    fout.open("BlueChips.csv", ios::out);
+    for (const auto& it : blueChips)
     {
         fout << it.toExcelLine() << endl;
     }
     fout.close();
 
-    cout << "代码已保存到SaveCode.csv中，请打开查看。" << endl;
+    cout << "芯片已分颜色保存在程序目录中，请打开查看。" << endl;
     cout << "将代码复制到Excel表格中的相应位置，可正常计算." << endl;
 }
 
