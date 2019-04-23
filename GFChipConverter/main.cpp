@@ -103,7 +103,7 @@ void helperWeb2Excel()
     {
         // create chips
         auto chip = GFChip::createFromSaveCode(it);
-        if(chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110)
+        if(chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110 || chip.chipType == 81 || chip.chipType == 82)
         {//5-block-2-type not used in excel
             continue;
         }
