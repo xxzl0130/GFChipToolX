@@ -3,26 +3,32 @@
 #include <sstream>
 #include <string>
 #include <conio.h>
-#include "split.h"
-#include "GFChip.h"
-#include "stdlib.h"
+#include <cstdlib>
+#include <stdio.h>
 #include <cctype>
 #include <ctime>
 #include <time.h>
+#include <sys/stat.h>
+
+#include "split.h"
+#include "GFChip.h"
+#include <ctype.h>
 using namespace std;
 
-char buffer[102400];
+char *buffer;
 // chip save code rules by GFTool
 const string rules[2] = { "InfinityFrost", "FatalChapters" };
 string timeStr;
 
 // helper functions
-char helperMain();
-void helperExcel2Web();
-void helperWeb2Excel();
-void excel2Web(const char* filename, int color);
+void helperMain();
+void excel2Web(int color);
+void web2Excel();
+int fileSize(const char* filename);
+//读取文件并判断文件类型，1为网页代码，2为Excel，0为错误，文件保存在全局buffer中
+int readFile(const char* filename);
 
-int main()
+int main(int argc,char** argv)
 {
     //获取时间
     auto timer = time(NULL);
@@ -31,97 +37,81 @@ int main()
     stringstream ss;
     ss << timeS.tm_year + 1900 << "-" << timeS.tm_mon << "-" << timeS.tm_mday << " " << timeS.tm_hour << "-" << timeS.tm_min << "-" << timeS.tm_sec;
     timeStr = ss.str();
-    start:
-    if(auto t = helperMain(); t == '1')
+
+    const char* filename;
+    string tmpStr;
+    int color = -1;
+    if(argc >= 2)
     {
-        helperExcel2Web();
-    }
-    else if(t == '2')
-    {
-        helperWeb2Excel();
-    }
-    else if(t == '0')
-    {
-        return 0;
+        filename = argv[1];
+        if(argc >= 3)
+        {
+            color = argv[2][0] == 'r' ? 2 : 1;
+        }
     }
     else
     {
-        // input error, restart.
-        system("cls");
-        goto start;
+        helperMain();
+        cin >> tmpStr;
+        filename = tmpStr.c_str();
     }
+    switch (readFile(filename))
+    {
+    case 1:
+        web2Excel();
+        break;
+    case 2:
+        if(color <= 0)
+        {
+            //颜色未初始化
+            cout << "由于Excel不区分颜色，请按键选择芯片颜色，r为红色，其他为蓝色。" << endl;
+            char c = getchar(); 
+            color = c == 'r' ? 2 : 1;
+        }
+        excel2Web(color);
+        break;
+    default:
+        cout << "请输入正确的文件！" << endl;
+        break;
+    }
+    cout << "转换完毕，请在程序目录下寻找相应文件。\n谢谢使用。" << endl;
     system("pause");
 }
 
-char helperMain()
+void helperMain()
 {
     cout << "欢迎使用《少女前线 芯片代码转换器》" << endl;
     cout << "有问题请邮件至zaxs0130@gmail.com" << endl;
     cout << "或https://github.com/xxzl0130/GFChipConverter" << endl;
-    cout << "===========================================================" << endl;
-    cout << "请按键选择要使用的功能：" << endl;
-    cout << "1：Excel（杯具）版 ====> 网页（乐章）版" << endl;
-    cout << "2：网页（乐章）版  ====> Excel（杯具）版" << endl;
-    cout << "0：退出" << endl;
-    return getchar();
-}
-
-void helperExcel2Web()
-{
-    system("cls");
-    gets_s(buffer, sizeof(buffer));//clear input
-    cout << "功能：Excel（杯具）版 ====> 网页（乐章）版" << endl;
-    cout << "由于Excel不区分颜色，请先按键选择芯片颜色，r为红色，其他为蓝色。" << endl;
-    char color = getchar(); gets_s(buffer, sizeof(buffer));//clear input
-    cout << "你选择的颜色是：" << (color == 'r' ? "红色" : "蓝色") << endl;
+    cout << "========================================================\n" << endl;
+    cout << "使用说明：" << endl;
+    cout << "命令行：GFChipConverter <filename> [color(r/b)]" << endl;
+    cout << "Example：GFChipConverter 重装芯片计算器-红.csv r" << endl;
+    cout << "或从此处输入文件名。" << endl << endl;
     cout << "请将excel表格保存为csv格式，保存时选择“芯片总表”工作表。" << endl;
-    cout << "然后在此处输入csv文件名或直接将文件拖至此处。" << endl;
+    cout << "或将网页版存储代码保存为Txt文件。" << endl;
+    cout << "请输入要转换的文件名，或直接将文件拖入此窗口，然后按回车。" << endl << endl;
     cout << "文件名：";
-    cin.getline(buffer, sizeof(buffer));
-    excel2Web(buffer,color == 'r' ? 2 : 1);
-    cout << "代码已保存到SaveCode.txt中，请查看" << endl;
 }
 
-void helperWeb2Excel()
+void web2Excel()
 {
-    start2:
-    system("cls");
-    gets_s(buffer, sizeof(buffer));//clear input
-    cout << "功能：网页（乐章）版  ====> Excel（杯具）版" << endl;
-    cout << "请直接将储存代码粘贴在此处，按回车键确认。" << endl;
-
-    memset(buffer, 0, sizeof(buffer));
-    int i = 0;
-    for(i = 0;(buffer[i] = getchar()) != ']';++i)
-    {
-        if(!isalpha(buffer[i]) && !isdigit(buffer[i]) && buffer[i] != ',' && buffer[i] != '[' && buffer[i] != '&')
-        {
-            //skip this char
-            --i;
-        }
-    }
-
-    if(i < 10)
-    {
-        //error, restart
-        goto start2;
-    }
     auto list = split(string(buffer + 2, strlen(buffer) - 3 - 2),//skip begin and end
-            '&');
+        '&');
 
-    std::vector<GFChip> redChips,blueChips;
-    for(const auto& it : list)
+    std::vector<GFChip> redChips, blueChips;
+    for (const auto& it : list)
     {
         // create chips
         auto chip = GFChip::createFromSaveCode(it);
-        if(chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110 || chip.chipType == 81 || chip.chipType == 82)
+        if (chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110 || chip.chipType == 81 || chip.chipType == 82)
         {//5-block-2-type not used in excel
             continue;
         }
         if (chip.chipColor == 2)
         {
             chip.chipNum = redChips.size() + 1;
-            redChips.push_back(GFChip::createFromSaveCode(it));
+            redChips.push_back(chip);
         }
         else
         {
@@ -133,7 +123,7 @@ void helperWeb2Excel()
     fstream fout;
     fout.open("RedChips " + timeStr + ".csv", ios::out);
     fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
-    for(const auto& it : redChips)
+    for (const auto& it : redChips)
     {
         fout << it.toExcelLine() << endl;
     }
@@ -145,45 +135,87 @@ void helperWeb2Excel()
         fout << it.toExcelLine() << endl;
     }
     fout.close();
-
-    cout << "芯片已分颜色保存在程序目录中，请打开查看。" << endl;
-    cout << "将代码复制到Excel表格中的相应位置，可正常计算." << endl;
 }
 
-void excel2Web(const char* filename,int color)
+void excel2Web(int color)
 {
-    fstream fin;
-    fstream fout;
-    fin.open(filename, ios::in);
-    fout.open("SaveCode" + timeStr + ".csv", ios::out);
     std::vector<GFChip> chips;
-
-    // skip useless line
-    for(auto i = 0;i < 11;++i)
-    {
-        fin.getline(buffer, sizeof(buffer));
-    }
-
     //read in
-    while(true)
+    auto lines = split(buffer, '\n');
+    lines.erase(lines.begin(), lines.begin() + 11);
+    for(const auto& it : lines)
     {
-        fin.getline(buffer, sizeof(buffer));
-        if(strlen(buffer) < 10 || !isdigit(buffer[0]))
+        if(it.size() < 10 || !isdigit(it[0]))
         {
             break;
         }
-        auto chip = GFChip::createFromExcelLine(buffer);
+        auto chip = GFChip::createFromExcelLine(it);
         chip.chipColor = color;
         chips.push_back(chip);
     }
-
+    if(chips.empty())
+    {
+        return;
+    }
     auto chipNum = (*chips.rbegin()).chipNum;
+    fstream fout;
+    fout.open("SaveCode" + timeStr + ".txt", ios::out);
     fout << "[" << rules[0][chipNum - 13 * int(chipNum / 13)] << "!";
     for(auto& it : chips)
     {
         fout << it.toSaveCode() << "&";
     }
     fout << "?" << rules[1][chipNum - 13 * int(chipNum / 13)] << "]";
-    fin.close();
     fout.close();
+}
+
+int fileSize(const char* filename)
+{
+    struct stat statbuf;
+    if (stat(filename, &statbuf) != 0) 
+        return 0;//获取失败。
+    return statbuf.st_size;//返回文件大小。
+}
+
+int readFile(const char* filename)
+{
+    auto size = fileSize(filename);
+    if (size <= 10)//too short
+    {
+        return 0;
+    }
+    size += 10;
+    buffer = new char[size];
+    memset(buffer, 0, sizeof(buffer));
+    FILE *fin;
+    fopen_s(&fin, filename, "r");
+    if(fin == NULL)
+    {
+        return -1;
+    }
+    fread_s(buffer, size, sizeof(char), size, fin);
+    fclose(fin);
+
+    auto len = strlen(buffer);
+    while(buffer[len - 1] == '\n' || buffer[len - 1] == '\r' || buffer[len - 1] == ' ' || buffer[len - 1] < 0)
+    {
+        //排除末尾空白
+        buffer[len - 1] = '\0';
+        --len;
+    }
+    auto t = &buffer[len - 10];
+    if(buffer[0] == '[' && isalpha(buffer[1]) && buffer[2] == '!' && buffer[len - 1] == ']')
+    {
+        //简单校验网页版代码
+        return 1;
+    }
+    else if(strstr(buffer,"0,1,5,13,8,6"))
+    {
+        //以excel里的一段固定文本为校验
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
 }
