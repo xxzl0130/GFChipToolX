@@ -1,16 +1,20 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <conio.h>
 #include "split.h"
 #include "GFChip.h"
 #include "stdlib.h"
-#include <ctype.h>
+#include <cctype>
+#include <ctime>
+#include <time.h>
 using namespace std;
 
 char buffer[102400];
 // chip save code rules by GFTool
 const string rules[2] = { "InfinityFrost", "FatalChapters" };
+string timeStr;
 
 // helper functions
 char helperMain();
@@ -20,6 +24,13 @@ void excel2Web(const char* filename, int color);
 
 int main()
 {
+    //获取时间
+    auto timer = time(NULL);
+    struct tm timeS;
+    localtime_s(&timeS,&timer);
+    stringstream ss;
+    ss << timeS.tm_year + 1900 << "-" << timeS.tm_mon << "-" << timeS.tm_mday << " " << timeS.tm_hour << "-" << timeS.tm_min << "-" << timeS.tm_sec;
+    timeStr = ss.str();
     start:
     if(auto t = helperMain(); t == '1')
     {
@@ -120,14 +131,14 @@ void helperWeb2Excel()
     }
 
     fstream fout;
-    fout.open("RedChips.csv", ios::out);
+    fout.open("RedChips " + timeStr + ".csv", ios::out);
     fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
     for(const auto& it : redChips)
     {
         fout << it.toExcelLine() << endl;
     }
     fout.close();
-    fout.open("BlueChips.csv", ios::out);
+    fout.open("BlueChips " + timeStr + ".csv", ios::out);
     fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
     for (const auto& it : blueChips)
     {
@@ -144,7 +155,7 @@ void excel2Web(const char* filename,int color)
     fstream fin;
     fstream fout;
     fin.open(filename, ios::in);
-    fout.open("SaveCode.txt", ios::out);
+    fout.open("SaveCode" + timeStr + ".csv", ios::out);
     std::vector<GFChip> chips;
 
     // skip useless line
