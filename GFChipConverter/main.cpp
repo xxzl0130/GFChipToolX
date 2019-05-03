@@ -53,6 +53,7 @@ int main(int argc,char** argv)
     {
         helperMain();
         cin >> tmpStr;
+        getchar();
         filename = tmpStr.c_str();
     }
     switch (readFile(filename))
@@ -64,8 +65,17 @@ int main(int argc,char** argv)
         if(color <= 0)
         {
             //颜色未初始化
-            cout << "由于Excel不区分颜色，请按键选择芯片颜色，r为红色，其他为蓝色。" << endl;
-            char c = getchar(); 
+            cout << "由于Excel不区分颜色，请按键选择芯片颜色，r为红色，b为蓝色:";
+            char c;
+            while(true)
+            {
+                c = tolower(getchar());
+                if (c == 'r' || c == 'b')
+                    break;
+                else
+                    while (getchar() != '\n');
+                cout << "由于Excel不区分颜色，请按键选择芯片颜色，r为红色，b为蓝色:";
+            }
             color = c == 'r' ? 2 : 1;
         }
         excel2Web(color);
