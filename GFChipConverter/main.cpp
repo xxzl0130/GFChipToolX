@@ -196,7 +196,7 @@ int readFile(const char* filename)
     }
     size += 10;
     buffer = new char[size];
-    memset(buffer, 0, sizeof(buffer));
+    memset(buffer, 0, size);
     FILE *fin;
     fopen_s(&fin, filename, "r");
     if(fin == NULL)
