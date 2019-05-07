@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFChipConverter", "GFChipConverter\GFChipConverter.vcxproj", "{CDAE0BD5-2D42-4A90-A9AB-C4DD3A43F93B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205} = {E983F664-E7D0-4232-AEF9-ADDFD9673205}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFChip", "GFChip\GFChip.vcxproj", "{E983F664-E7D0-4232-AEF9-ADDFD9673205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,14 @@ Global
 		{CDAE0BD5-2D42-4A90-A9AB-C4DD3A43F93B}.Release|x64.Build.0 = Release|x64
 		{CDAE0BD5-2D42-4A90-A9AB-C4DD3A43F93B}.Release|x86.ActiveCfg = Release|Win32
 		{CDAE0BD5-2D42-4A90-A9AB-C4DD3A43F93B}.Release|x86.Build.0 = Release|Win32
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Debug|x64.ActiveCfg = Debug|x64
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Debug|x64.Build.0 = Debug|x64
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Debug|x86.ActiveCfg = Debug|Win32
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Debug|x86.Build.0 = Debug|Win32
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Release|x64.ActiveCfg = Release|x64
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Release|x64.Build.0 = Release|x64
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Release|x86.ActiveCfg = Release|Win32
+		{E983F664-E7D0-4232-AEF9-ADDFD9673205}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

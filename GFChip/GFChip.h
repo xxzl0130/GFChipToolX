@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
+#include "stdafx.h"
 
-class GFChip
+class DLL_EXP GFChip
 {
 public:
     GFChip();
@@ -35,8 +36,5 @@ public:
     // create from line of cups excel
     static GFChip createFromExcelLine(const std::string& line);
 private:
-    static constexpr double argDmg = 4.4, argDbk = 12.7, argAcu = 7.1, argFil = 5.7;
-    static constexpr double den56 = 1.0, den551 = 1.0, den552 = 0.92;
-    static constexpr double argLv[21] = {1.0,1.08,1.16,1.24,1.32,1.4,1.48,1.56,1.64,1.72,1.8,1.87,1.94,2.01,2.08,2.15,2.22,2.29,2.36,2.43,2.5 };
 };
 
