@@ -35,7 +35,19 @@ struct SOLVER_EXP Solution
     }
 };
 
+//属性格数
+struct SOLVER_EXP Block
+{
+    double blockDmg, blockDbk, blockAcu, blockFil;
+    Block(double dmg = 0.0,double dbk = 0.0,double acu = 0.0,double fil = 0.0):
+        blockDmg(dmg), blockDbk(dbk), blockAcu(acu), blockFil(fil){}
+};
+
 //按照预设的plans寻找所有解
 SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,const Plans& plans);
+//寻找与target的溢出不超过maxOverflow的所有解
+SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,const Plans& plans, const Block& target, double maxOverflow = 2.0);
+//寻找与target的4项溢出不超过error的所有解
+SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,const Plans& plans, const Block& target, const Block& error);
 //按格数筛选，返回下标
 SOLVER_EXP std::vector<int> findSolution(const std::vector<Solution>& solutions, int blockDmg, int blockDbk, int blockAcu, int blockFil);
