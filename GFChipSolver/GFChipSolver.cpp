@@ -55,7 +55,7 @@ std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& p
             continue;
         }
         planNumber = i;
-        findSolutionMaxOver4(plans[i]);
+        findSolutionMaxOver(plans[i]);
     }
 
     return solutions;

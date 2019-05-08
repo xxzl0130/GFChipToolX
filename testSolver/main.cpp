@@ -45,7 +45,7 @@ int main()
         }
     }
     auto t0 = clock();
-    auto solution = solveChip(redChips, planAGS, Block(10, 4, 7, 17), 1);
+    auto solution = solveChip(redChips, planAGS, Block(10, 4, 7, 17),2);
     auto t1 = clock();
     cout << "解法总数：" << solution.size() << endl;
     cout << "耗时：" << double(t1 - t0) / CLOCKS_PER_SEC << "秒" << endl;
