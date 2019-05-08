@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "stdafx.h"
+#include "chipStdafx.h"
 
 //56
 #define GF_CHIP_CLASS_56        56

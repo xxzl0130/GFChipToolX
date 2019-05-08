@@ -15,21 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GFChip.h">
+    <ClInclude Include="GFChipSolver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="split.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="chipStdafx.h">
+    <ClInclude Include="solverStdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GFChip.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="split.cpp">
+    <ClCompile Include="GFChipSolver.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
