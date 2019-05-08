@@ -21,9 +21,15 @@
     <ClInclude Include="solverStdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="GFChipPlans.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GFChipSolver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GFChipPlans.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
