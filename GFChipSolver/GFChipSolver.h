@@ -4,7 +4,6 @@
 #include "GFChip.h"
 #include "GFChipPlans.h"
 
-//每个Solution第0个为总属性，后续为芯片
 struct SOLVER_EXP Solution
 {
     //拼法使用的芯片序号（vector中的序号，不是芯片编号）

@@ -8,18 +8,20 @@ typedef std::map<int, std::vector<std::pair<int,bool>>> ChipClassifiedMap;
 static ChipClassifiedMap chipClassified;
 static std::vector<Solution> solutions;
 static Solution tmpSolution;
+static const std::vector<GFChip>* chipsPtr = nullptr;
 
 //将不同class的芯片分类
 void classifyChip(const std::vector<GFChip>& chips);
 //检查当前芯片数量是否满足该拼法最低需要
 bool satisfyPlan(const Plan& plan);
-void findSolution(const Plan& plan, int k = 0);
+void findSolution(const Plan& plan, int planNumber, int k = 0);
 //统计拼法的数据
 void calcSolution(Solution& s);
 
 std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& plans)
 {
     solutions.clear();
+    chipsPtr = &chips;
     classifyChip(chips);
     for(auto i = 0;i < plans.size();++i)
     {
@@ -27,7 +29,7 @@ std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& p
         {
             continue;
         }
-        findSolution(plans[i]);
+        findSolution(plans[i], i);
     }
 
     return solutions;
@@ -66,11 +68,13 @@ bool satisfyPlan(const Plan& plan)
     return ans;
 }
 
-void findSolution(const Plan& plan, int k)
+void findSolution(const Plan& plan, int planNumber, int k)
 {
     if(k >= plan.size())
     {
         calcSolution(tmpSolution);
+        tmpSolution.chipNumber = k;
+        tmpSolution.planNumber = planNumber;
         solutions.push_back(tmpSolution);
         return;
     }
@@ -82,7 +86,7 @@ void findSolution(const Plan& plan, int k)
             //芯片未被使用
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
-            findSolution(plan, k + 1);
+            findSolution(plan, planNumber, k + 1);
             it.second = false;//恢复记录
         }
     }
@@ -90,4 +94,21 @@ void findSolution(const Plan& plan, int k)
 
 void calcSolution(Solution& s)
 {
+    s.blockDbk = 0; s.valueDbk = 0;
+    s.blockDmg = 0; s.valueDmg = 0;
+    s.blockFil = 0; s.valueFil = 0;
+    s.blockAcu = 0; s.valueAcu = 0;
+    for(auto i = 0;i < s.chipNumber;++i)
+    {
+        const auto& chip = (*chipsPtr)[s.chipIndex[i]];
+        auto value = chip.calcValue();
+        s.blockDbk += chip.blockDmg; 
+        s.valueDbk += value.blockDbk;
+        s.blockDmg += chip.blockDmg; 
+        s.valueDmg += value.blockDmg;
+        s.blockFil += chip.blockFil; 
+        s.valueFil += value.blockFil;
+        s.blockAcu += chip.blockAcu; 
+        s.valueAcu += value.blockAcu;
+    }
 }
