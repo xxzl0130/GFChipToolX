@@ -35,18 +35,32 @@ std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& p
     return solutions;
 }
 
+std::vector<int> findSolution(const std::vector<Solution>& solutions, int blockDmg, int blockDbk, int blockAcu, int blockFil)
+{
+    std::vector<int> indexs;
+    for(auto i = 0;i < solutions.size();++i)
+    {
+        const auto& it = solutions[i];
+        if (it.blockDmg == blockDmg && it.blockAcu == blockAcu && it.blockDbk == blockDbk && it.blockFil == blockFil)
+        {
+            indexs.push_back(i);
+        }
+    }
+    return indexs;
+}
+
 void classifyChip(const std::vector<GFChip>& chips)
 {
     chipClassified.clear();
     for(auto i = 0;i < chips.size();++i)
     {
         const auto& chip = chips[i];
-        if(!chipClassified.count(chip.chipClass))
+        if(!chipClassified.count(chip.chipType))
         {
             //创建
-            chipClassified[chip.chipClass] = std::vector<std::pair<int, bool>>();
+            chipClassified[chip.chipType] = std::vector<std::pair<int, bool>>();
         }
-        chipClassified[chip.chipClass].emplace_back(i,false);
+        chipClassified[chip.chipType].emplace_back(i,false);
     }
 }
 
@@ -62,7 +76,7 @@ bool satisfyPlan(const Plan& plan)
     for(const auto& it : require)
     {
         //每种芯片需求都满足
-        ans = ans && (chipClassified.count(it.first) >= it.second);
+        ans = ans && (chipClassified[it.first].size() >= it.second);
     }
 
     return ans;
@@ -102,7 +116,7 @@ void calcSolution(Solution& s)
     {
         const auto& chip = (*chipsPtr)[s.chipIndex[i]];
         auto value = chip.calcValue();
-        s.blockDbk += chip.blockDmg; 
+        s.blockDbk += chip.blockDbk; 
         s.valueDbk += value.blockDbk;
         s.blockDmg += chip.blockDmg; 
         s.valueDmg += value.blockDmg;

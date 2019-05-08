@@ -35,4 +35,7 @@ struct SOLVER_EXP Solution
     }
 };
 
+//按照预设的plans寻找所有解
 SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,const Plans& plans);
+//按格数筛选，返回下标
+SOLVER_EXP std::vector<int> findSolution(const std::vector<Solution>& solutions, int blockDmg, int blockDbk, int blockAcu, int blockFil);
