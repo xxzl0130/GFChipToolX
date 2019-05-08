@@ -36,7 +36,7 @@
 #define GF_CHIP_TYPE_L          131
 #define GF_CHIP_TYPE_L_         132
 
-class DLL_EXP GFChip
+class CHIP_EXP GFChip
 {
 public:
     GFChip();

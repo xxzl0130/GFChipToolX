@@ -1,6 +1,6 @@
 #pragma once
 #ifdef _LIB
-#define DLL_EXP __declspec(dllexport)
+#define CHIP_EXP __declspec(dllexport)
 #else
-#define DLL_EXP __declspec(dllimport)
+#define CHIP_EXP __declspec(dllimport)
 #endif

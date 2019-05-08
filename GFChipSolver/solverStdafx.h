@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#ifdef _LIB
-#define DLL_EXP __declspec(dllexport)
+#ifdef _USRDLL
+#define SOLVER_EXP __declspec(dllexport)
 #else
-#define DLL_EXP __declspec(dllimport)
+#define SOLVER_EXP __declspec(dllimport)
 #endif

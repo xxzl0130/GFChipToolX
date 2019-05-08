@@ -1,8 +1,9 @@
 #pragma once
+#include "solverStdafx.h"
 #include <vector>
 #include "GFChip.h"
 
-struct PlanElement
+struct SOLVER_EXP PlanElement
 {
     int chipType;
     int chipNum;
@@ -16,6 +17,6 @@ typedef std::vector<PlanElement> Plan;
 #define PLAN_AGS_NUM        441
 #define PLAN_BGM_NUM        219
 
-extern Plan plan2B14[PLAN_2B14_NUM];
-extern Plan planAGS[PLAN_AGS_NUM];
-extern Plan planBGM[PLAN_BGM_NUM];
+extern SOLVER_EXP Plan plan2B14[PLAN_2B14_NUM];
+extern SOLVER_EXP Plan planAGS[PLAN_AGS_NUM];
+extern SOLVER_EXP Plan planBGM[PLAN_BGM_NUM];
