@@ -63,6 +63,9 @@ public:
     // create from save coed used by GFTool, without '&', '[', ']', like "1,1,551,120,0,2,0,1,2,1"
     static GFChip createFromSaveCode(const std::string& code);
 
+    //计算属性数值，返回的对象中的block属性不再是格数而是数值。
+    GFChip calcValue() const;
+
     // to excel line by cups
     std::string toExcelLine() const;
     // create from line of cups excel

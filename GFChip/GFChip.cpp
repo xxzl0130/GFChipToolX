@@ -89,6 +89,22 @@ GFChip GFChip::createFromSaveCode(const std::string& code)
     return chip;
 }
 
+GFChip GFChip::calcValue() const
+{
+    GFChip chip;
+    chip = *this;
+    double den = den56;
+    if (this->chipClass == GF_CHIP_CLASS_551)
+    {
+        den = den551;
+    }
+    chip.blockDmg = ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel]);
+    chip.blockDbk = ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel]);
+    chip.blockAcu = ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel]);
+    chip.blockFil = ceil(ceil(this->blockFil * argFil * den) * argLv[chipLevel]);
+    return chip;
+}
+
 std::string GFChip::toExcelLine() const
 {
     string line;
@@ -184,10 +200,11 @@ std::string GFChip::toExcelLine() const
     line += to_string(this->blockAcu) + ',';
     line += to_string(this->blockFil) + ',';
     line += to_string(this->chipLevel) + ',';
-    line += to_string(ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel])) + ',';
-    line += to_string(ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel])) + ',';
-    line += to_string(ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel])) + ',';
-    line += to_string(ceil(ceil(this->blockFil * argFil * den) * argLv[chipLevel])) + ',';
+    const auto value = calcValue();
+    line += to_string(value.blockDmg) + ',';
+    line += to_string(value.blockDbk) + ',';
+    line += to_string(value.blockAcu) + ',';
+    line += to_string(value.blockFil) + ',';
 
     return line;
 }
