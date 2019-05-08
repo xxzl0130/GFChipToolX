@@ -94,7 +94,7 @@ std::string GFChip::toExcelLine() const
     string line;
     line += to_string(this->chipNum) + ',';
     double den = den56;
-    if (this->chipClass == 56)
+    if (this->chipClass == GF_CHIP_CLASS_56)
     {
         if(this->chipType > 40)
         {
@@ -111,66 +111,66 @@ std::string GFChip::toExcelLine() const
         den = den551;
         switch(this->chipType)
         {
-        case 11:
+        case GF_CHIP_TYPE_FA:
             line += "Fa";
             break;
-        case 12:
+        case GF_CHIP_TYPE_FB:
             line += "Fb";
             break;
-        case 4:
+        case GF_CHIP_TYPE_T:
             line += "T";
             break;
-        case 6:
+        case GF_CHIP_TYPE_X:
             line += "X";
             break;
-        case 31:
+        case GF_CHIP_TYPE_YA:
             line += "Ya";
             break;
-        case 32:
+        case GF_CHIP_TYPE_YB:
             line += "Yb";
             break;
-        case 21:
+        case GF_CHIP_TYPE_NA:
             line += "Na";
             break;
-        case 22:
+        case GF_CHIP_TYPE_NB:
             line += "Nb";
             break;
-        case 5:
+        case GF_CHIP_TYPE_W:
             line += "W";
             break;
-        case 81:
+        case GF_CHIP_TYPE_B:
             line += "b";
             den = den552;
             break;
-        case 82:
+        case GF_CHIP_TYPE_D:
             line += "d";
             den = den552;
             break;
-        case 9:
+        case GF_CHIP_TYPE_I:
             line += "I";
             den = den552;
             break;
-        case 10:
+        case GF_CHIP_TYPE_C:
             line += "C";
             den = den552;
             break;
-        case 111:
+        case GF_CHIP_TYPE_Z:
             line += "Z";
             den = den552;
             break;
-        case 112:
+        case GF_CHIP_TYPE_Z_:
             line += "Z-";
             den = den552;
             break;
-        case 120:
+        case GF_CHIP_TYPE_V:
             line += "V";
             den = den552;
             break;
-        case 131:
+        case GF_CHIP_TYPE_L:
             line += "L";
             den = den552;
             break;
-        case 132:
+        case GF_CHIP_TYPE_L_:
             line += "L-";
             den = den552;
             break;
@@ -211,83 +211,79 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     if(isalpha(list[1][0]))
     {
         // starting with word must be 551
-        chip.chipClass = 551;
+        chip.chipClass = GF_CHIP_CLASS_551;
         // deal with type
         if (list[1] == "fa")
         {
-            chip.chipType = 11;
+            chip.chipType = GF_CHIP_TYPE_FA;
         }
         else if (list[1] == "fb")
         {
-            chip.chipType = 12;
-        }
-        else if (list[1] == "fb")
-        {
-            chip.chipType = 12;
+            chip.chipType = GF_CHIP_TYPE_FB;
         }
         else if (list[1] == "t")
         {
-            chip.chipType = 4;
+            chip.chipType = GF_CHIP_TYPE_T;
         }
         else if (list[1] == "x")
         {
-            chip.chipType = 6;
+            chip.chipType = GF_CHIP_TYPE_X;
         }
         else if (list[1] == "ya")
         {
-            chip.chipType = 31;
+            chip.chipType = GF_CHIP_TYPE_YA;
         }
         else if (list[1] == "yb")
         {
-            chip.chipType = 32;
+            chip.chipType = GF_CHIP_TYPE_YB;
         }
         else if (list[1] == "na")
         {
-            chip.chipType = 21;
+            chip.chipType = GF_CHIP_TYPE_NA;
         }
         else if (list[1] == "nb")
         {
-            chip.chipType = 22;
+            chip.chipType = GF_CHIP_TYPE_NB;
         }
         else if (list[1] == "w")
         {
-            chip.chipType = 5;
+            chip.chipType = GF_CHIP_TYPE_W;
         }
         else if (list[1] == "b")
         {
-            chip.chipType = 81;
+            chip.chipType = GF_CHIP_TYPE_B;
         }
         else if (list[1] == "d")
         {
-            chip.chipType = 82;
+            chip.chipType = GF_CHIP_TYPE_D;
         }
         else if (list[1] == "i")
         {
-            chip.chipType = 9;
+            chip.chipType = GF_CHIP_TYPE_I;
         }
         else if (list[1] == "c")
         {
-            chip.chipType = 10;
+            chip.chipType = GF_CHIP_TYPE_C;
         }
         else if (list[1] == "z")
         {
-            chip.chipType = 111;
+            chip.chipType = GF_CHIP_TYPE_Z;
         }
         else if (list[1] == "z-")
         {
-            chip.chipType = 112;
+            chip.chipType = GF_CHIP_TYPE_Z_;
         }
         else if (list[1] == "v")
         {
-            chip.chipType = 120;
+            chip.chipType = GF_CHIP_TYPE_V;
         }
         else if (list[1] == "l")
         {
-            chip.chipType = 131;
+            chip.chipType = GF_CHIP_TYPE_L;
         }
         else if (list[1] == "l-")
         {
-            chip.chipType = 132;
+            chip.chipType = GF_CHIP_TYPE_L_;
         }
         else
         {
@@ -296,15 +292,15 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     }
     else
     {
-        chip.chipClass = 56;
+        chip.chipClass = GF_CHIP_CLASS_56;
         // deal with type
         if (list[1] == "4a")
         {
-            chip.chipType = 41;
+            chip.chipType = GF_CHIP_TYPE_4A;
         }
         else if (list[1] == "4b")
         {
-            chip.chipType = 42;
+            chip.chipType = GF_CHIP_TYPE_4B;
         }
         else
         {
