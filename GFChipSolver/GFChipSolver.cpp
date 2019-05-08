@@ -252,6 +252,11 @@ void add(Solution& s, const GFChip& c)
     s.blockAcu += c.blockAcu;
     s.blockDbk += c.blockDbk;
     s.blockFil += c.blockFil;
+    auto v = c.calcValue();
+    s.valueDmg += v.blockDmg;
+    s.valueAcu += v.blockAcu;
+    s.valueDbk += v.blockDbk;
+    s.valueFil += v.blockFil;
 }
 
 void sub(Solution& s, const GFChip& c)
@@ -259,5 +264,10 @@ void sub(Solution& s, const GFChip& c)
     s.blockDmg -= c.blockDmg;
     s.blockAcu -= c.blockAcu;
     s.blockDbk -= c.blockDbk;
-    s.blockFil -= c.blockFil;
+    s.blockFil -= c.blockFil; 
+    auto v = c.calcValue();
+    s.valueDmg -= v.blockDmg;
+    s.valueAcu -= v.blockAcu;
+    s.valueDbk -= v.blockDbk;
+    s.valueFil -= v.blockFil;
 }
