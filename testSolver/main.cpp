@@ -53,7 +53,7 @@ int main()
     auto t2 = clock();
     cout << "找到最优解" << index.size() << "个" << endl;
     cout << "耗时：" << double(t2 - t1) / CLOCKS_PER_SEC << "秒" << endl;
-    for(auto& it : index)
+    /*for(auto& it : index)
     {
         const auto& s = solution[it];
         for(auto i = 0;i < s.chipNumber;++i)
@@ -61,7 +61,7 @@ int main()
             cout << s.chipIndex[i] << ",";
         }
         cout << endl;
-    }
+    }*/
     cout << endl;
     system("pause");
 }

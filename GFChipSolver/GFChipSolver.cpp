@@ -22,6 +22,8 @@ void findSolutionMaxOver(const Plan& plan, int k = 0);
 void findSolutionMaxOver4(const Plan& plan, int k = 0);
 //统计拼法的数据
 void calcSolution(Solution& s);
+void add(Solution& s, const GFChip& c);
+void sub(Solution& s, const GFChip& c);
 
 std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& plans)
 {
@@ -133,7 +135,7 @@ void findSolution(const Plan& plan, int k)
 {
     if(k >= plan.size())
     {
-        calcSolution(tmpSolution);
+        //calcSolution(tmpSolution);
         tmpSolution.chipNumber = k;
         tmpSolution.planNumber = planNumber;
         solutions.push_back(tmpSolution);
@@ -142,13 +144,15 @@ void findSolution(const Plan& plan, int k)
     auto& chips = chipClassified[plan[k]];//获取当前所需型号的芯片列表
     for(auto& it : chips)
     {
-        if(!it.second)
+        if (!it.second)
         {
             //芯片未被使用
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
-            findSolution(plan, k + 1);
+            add(tmpSolution, (*chipsPtr)[it.first]);
+            findSolutionMaxOver(plan, k + 1);
             it.second = false;//恢复记录
+            sub(tmpSolution, (*chipsPtr)[it.first]);
         }
     }
 }
@@ -156,7 +160,7 @@ void findSolution(const Plan& plan, int k)
 void findSolutionMaxOver(const Plan& plan, int k)
 {
     tmpSolution.chipNumber = k;
-    calcSolution(tmpSolution);
+    //calcSolution(tmpSolution);
     //加算溢出值并筛选
     double over = 0;
     over += std::max(0.0, tmpSolution.blockDmg - targetBlock.blockDmg);
@@ -179,8 +183,10 @@ void findSolutionMaxOver(const Plan& plan, int k)
             //芯片未被使用
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
+            add(tmpSolution, (*chipsPtr)[it.first]);
             findSolutionMaxOver(plan, k + 1);
             it.second = false;//恢复记录
+            sub(tmpSolution, (*chipsPtr)[it.first]);
         }
     }
 }
@@ -188,7 +194,7 @@ void findSolutionMaxOver(const Plan& plan, int k)
 void findSolutionMaxOver4(const Plan& plan, int k)
 {
     tmpSolution.chipNumber = k;
-    calcSolution(tmpSolution);
+    //calcSolution(tmpSolution);
     //加算溢出值并筛选
     bool over = false;
     over = over || (tmpSolution.blockDmg - targetBlock.blockDmg) > maxOver4.blockDmg;
@@ -211,8 +217,10 @@ void findSolutionMaxOver4(const Plan& plan, int k)
             //芯片未被使用
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
-            findSolutionMaxOver4(plan, k + 1);
+            add(tmpSolution, (*chipsPtr)[it.first]);
+            findSolutionMaxOver(plan, k + 1);
             it.second = false;//恢复记录
+            sub(tmpSolution, (*chipsPtr)[it.first]);
         }
     }
 }
@@ -236,4 +244,20 @@ void calcSolution(Solution& s)
         s.blockAcu += chip.blockAcu; 
         s.valueAcu += value.blockAcu;
     }
+}
+
+void add(Solution& s, const GFChip& c)
+{
+    s.blockDmg += c.blockDmg;
+    s.blockAcu += c.blockAcu;
+    s.blockDbk += c.blockDbk;
+    s.blockFil += c.blockFil;
+}
+
+void sub(Solution& s, const GFChip& c)
+{
+    s.blockDmg -= c.blockDmg;
+    s.blockAcu -= c.blockAcu;
+    s.blockDbk -= c.blockDbk;
+    s.blockFil -= c.blockFil;
 }
