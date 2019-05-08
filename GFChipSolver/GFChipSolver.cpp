@@ -150,7 +150,7 @@ void findSolution(const Plan& plan, int k)
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
             add(tmpSolution, (*chipsPtr)[it.first]);
-            findSolutionMaxOver(plan, k + 1);
+            findSolution(plan, k + 1);
             it.second = false;//»Ö¸´¼ÇÂ¼
             sub(tmpSolution, (*chipsPtr)[it.first]);
         }
@@ -218,7 +218,7 @@ void findSolutionMaxOver4(const Plan& plan, int k)
             it.second = true;
             tmpSolution.chipIndex[k] = it.first;
             add(tmpSolution, (*chipsPtr)[it.first]);
-            findSolutionMaxOver(plan, k + 1);
+            findSolutionMaxOver4(plan, k + 1);
             it.second = false;//»Ö¸´¼ÇÂ¼
             sub(tmpSolution, (*chipsPtr)[it.first]);
         }
