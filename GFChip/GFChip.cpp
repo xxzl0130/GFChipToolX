@@ -86,6 +86,7 @@ GFChip GFChip::createFromSaveCode(const std::string& code)
     chip.blockDmg = atoi(list[7].c_str());
     chip.blockDbk = atoi(list[8].c_str());
     chip.weight = atoi(list[9].c_str());
+    chip.typeId = chip.chipType + chip.chipClass * 100;
 
     return chip;
 }
@@ -347,6 +348,7 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     }
     chip.weight = 1;
     chip.chipColor = 1;//default red.
+    chip.typeId = chip.chipType + chip.chipClass * 100;
 
     return chip;
 }

@@ -10,6 +10,8 @@ typedef std::vector<Plan> Plans;
 #define PLAN_AGS_NUM        441
 #define PLAN_BGM_NUM        219
 
-extern SOLVER_EXP Plans plan2B14;
-extern SOLVER_EXP Plans planAGS;
-extern SOLVER_EXP Plans planBGM;
+extern SOLVER_EXP const Plans plan2B14;
+extern SOLVER_EXP const Plans planAGS;
+extern SOLVER_EXP const Plans planBGM;
+extern SOLVER_EXP const Plans planAT4;
+extern SOLVER_EXP const Plans planM2;

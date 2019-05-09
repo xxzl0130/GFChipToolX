@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 //将不同class的芯片分类,key为class，value为编号和是否使用
 typedef std::map<int, std::vector<std::pair<int,bool>>> ChipClassifiedMap;
@@ -78,13 +79,31 @@ std::vector<int> findSolution(const std::vector<Solution>& solutions, int blockD
     return indexs;
 }
 
+std::vector<Solution> uniqueSolution(const std::vector<Solution>& solutions)
+{
+    typedef decltype(Solution::chipIndex) Index;
+    std::set<Index> uniquer;
+    std::vector<Solution> uniqueSolutions;
+    for(const auto& it : solutions)
+    {
+        auto s = it;
+        std::sort(s.chipIndex.begin(), s.chipIndex.end());
+        if(uniquer.count(s.chipIndex) == 0)
+        {
+            uniquer.insert(s.chipIndex);
+            uniqueSolutions.push_back(it);
+        }
+    }
+    return uniqueSolutions;
+}
+
 void classifyChip(const std::vector<GFChip>& chips)
 {
     chipClassified.clear();
     for(auto i = 0;i < chips.size();++i)
     {
         const auto& chip = chips[i];
-        if(!chipClassified.count(chip.chipType))
+        if(!chipClassified.count(chip.typeId))
         {
             //创建
             chipClassified[chip.typeId] = std::vector<std::pair<int, bool>>();
@@ -113,6 +132,8 @@ bool satisfyPlan(const Plan& plan)
 
 void findSolution(const Plan& plan, int k)
 {
+    if (!checkSolution())
+        return;
     if(k >= plan.size())
     {
         //calcSolution(tmpSolution);

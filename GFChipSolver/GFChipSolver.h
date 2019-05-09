@@ -8,7 +8,7 @@
 struct SOLVER_EXP Solution
 {
     //拼法使用的芯片序号（vector中的序号，不是芯片编号）
-    int chipIndex[8];
+    std::vector<int> chipIndex;
     int chipNumber;     // 使用的芯片总数
     int blockAcu;       // 精度格数
     int blockFil;       // 装填格数
@@ -22,7 +22,7 @@ struct SOLVER_EXP Solution
 
     Solution()
     {
-        memset(chipIndex, -1, sizeof chipIndex);
+        chipIndex.resize(8, 0);
         chipNumber = 0;
         blockAcu = 0;
         blockFil = 0;
@@ -52,3 +52,5 @@ SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,cons
 SOLVER_EXP std::vector<Solution> solveChip(const std::vector<GFChip>& chips,const Plans& plans, const Block& target, const Block& error);
 //按格数筛选，返回下标
 SOLVER_EXP std::vector<int> findSolution(const std::vector<Solution>& solutions, int blockDmg, int blockDbk, int blockAcu, int blockFil);
+//去除重复的方案
+SOLVER_EXP std::vector<Solution> uniqueSolution(const std::vector<Solution>& solutions);

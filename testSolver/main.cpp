@@ -12,7 +12,7 @@ char buffer[1024000];
 int main()
 {
     FILE *fin;
-    fopen_s(&fin, "SaveCode2.txt", "r");
+    fopen_s(&fin, "SaveCode.txt", "r");
     fread_s(buffer, sizeof(buffer), sizeof(char), sizeof(buffer), fin);
     auto len = strlen(buffer);
     while (buffer[len - 1] == '\n' || buffer[len - 1] == '\r' || buffer[len - 1] == ' ' || buffer[len - 1] < 0)
@@ -47,7 +47,7 @@ int main()
     }
     auto t0 = clock();
     auto target = Block(10, 4, 7, 17);
-    auto solution = solveChip(redChips, planAGS,target,0.2);
+    auto solution = uniqueSolution(solveChip(redChips, planAGS,target,0.2));
     auto t1 = clock();
     cout << "解法总数：" << solution.size() << endl;
     cout << "耗时：" << double(t1 - t0) / CLOCKS_PER_SEC << "秒" << endl;
