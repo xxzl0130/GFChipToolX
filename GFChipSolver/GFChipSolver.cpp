@@ -5,6 +5,14 @@
 
 //将不同class的芯片分类,key为class，value为编号和是否使用
 typedef std::map<int, std::vector<std::pair<int,bool>>> ChipClassifiedMap;
+enum WorkType
+{
+    AllSolutions,
+    FiltrateBlocks,
+    FiltrateOverflow
+};
+
+static WorkType workType;
 static ChipClassifiedMap chipClassified;
 static std::vector<Solution> solutions;
 static Solution tmpSolution;
@@ -18,47 +26,29 @@ void classifyChip(const std::vector<GFChip>& chips);
 //检查当前芯片数量是否满足该拼法最低需要
 bool satisfyPlan(const Plan& plan);
 void findSolution(const Plan& plan, int k = 0);
-void findSolutionMaxOver(const Plan& plan, int k = 0);
-void findSolutionMaxOver4(const Plan& plan, int k = 0);
 //统计拼法的数据
 void calcSolution(Solution& s);
 void add(Solution& s, const GFChip& c);
 void sub(Solution& s, const GFChip& c);
+//根据WorkType检查当前方案是否满足条件,true为可行
+bool checkSolution();
+//实际的统一求解入口
+void privateSolveChip(const std::vector<GFChip>& chips, const Plans& plans);
 
 std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& plans)
 {
-    solutions.clear();
-    chipsPtr = &chips;
-    classifyChip(chips);
-    for(auto i = 0;i < plans.size();++i)
-    {
-        if(!satisfyPlan(plans[i]))
-        {
-            continue;
-        }
-        planNumber = i;
-        findSolution(plans[i]);
-    }
+    workType = AllSolutions;
+    privateSolveChip(chips, plans);
 
     return solutions;
 }
 
 std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& plans, const Block& target, double maxOverflow)
 {
-    solutions.clear();
-    chipsPtr = &chips;
-    classifyChip(chips);
     targetBlock = target;
     maxOver = maxOverflow;
-    for (auto i = 0; i < plans.size(); ++i)
-    {
-        if (!satisfyPlan(plans[i]))
-        {
-            continue;
-        }
-        planNumber = i;
-        findSolutionMaxOver(plans[i]);
-    }
+    workType = FiltrateOverflow;
+    privateSolveChip(chips, plans);
 
     return solutions;
 }
@@ -66,20 +56,10 @@ std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& p
 std::vector<Solution> solveChip(const std::vector<GFChip>& chips, const Plans& plans, const Block& target,
     const Block& error)
 {
-    solutions.clear();
-    chipsPtr = &chips;
-    classifyChip(chips);
     targetBlock = target;
     maxOver4 = error;
-    for (auto i = 0; i < plans.size(); ++i)
-    {
-        if (!satisfyPlan(plans[i]))
-        {
-            continue;
-        }
-        planNumber = i;
-        findSolutionMaxOver4(plans[i]);
-    }
+    workType = FiltrateBlocks;
+    privateSolveChip(chips, plans);
 
     return solutions;
 }
@@ -107,9 +87,9 @@ void classifyChip(const std::vector<GFChip>& chips)
         if(!chipClassified.count(chip.chipType))
         {
             //创建
-            chipClassified[chip.chipType] = std::vector<std::pair<int, bool>>();
+            chipClassified[chip.typeId] = std::vector<std::pair<int, bool>>();
         }
-        chipClassified[chip.chipType].emplace_back(i,false);
+        chipClassified[chip.typeId].emplace_back(i,false);
     }
 }
 
@@ -151,74 +131,6 @@ void findSolution(const Plan& plan, int k)
             tmpSolution.chipIndex[k] = it.first;
             add(tmpSolution, (*chipsPtr)[it.first]);
             findSolution(plan, k + 1);
-            it.second = false;//恢复记录
-            sub(tmpSolution, (*chipsPtr)[it.first]);
-        }
-    }
-}
-
-void findSolutionMaxOver(const Plan& plan, int k)
-{
-    tmpSolution.chipNumber = k;
-    //calcSolution(tmpSolution);
-    //加算溢出值并筛选
-    double over = 0;
-    over += std::max(0.0, tmpSolution.blockDmg - targetBlock.blockDmg);
-    over += std::max(0.0, tmpSolution.blockAcu - targetBlock.blockAcu);
-    over += std::max(0.0, tmpSolution.blockDbk - targetBlock.blockDbk);
-    over += std::max(0.0, tmpSolution.blockFil - targetBlock.blockFil);
-    if (over > maxOver)
-        return;
-    if (k >= plan.size())
-    {
-        tmpSolution.planNumber = planNumber;
-        solutions.push_back(tmpSolution);
-        return;
-    }
-    auto& chips = chipClassified[plan[k]];//获取当前所需型号的芯片列表
-    for (auto& it : chips)
-    {
-        if (!it.second)
-        {
-            //芯片未被使用
-            it.second = true;
-            tmpSolution.chipIndex[k] = it.first;
-            add(tmpSolution, (*chipsPtr)[it.first]);
-            findSolutionMaxOver(plan, k + 1);
-            it.second = false;//恢复记录
-            sub(tmpSolution, (*chipsPtr)[it.first]);
-        }
-    }
-}
-
-void findSolutionMaxOver4(const Plan& plan, int k)
-{
-    tmpSolution.chipNumber = k;
-    //calcSolution(tmpSolution);
-    //加算溢出值并筛选
-    bool over = false;
-    over = over || (tmpSolution.blockDmg - targetBlock.blockDmg) > maxOver4.blockDmg;
-    over = over || (tmpSolution.blockDbk - targetBlock.blockDbk) > maxOver4.blockDbk;
-    over = over || (tmpSolution.blockAcu - targetBlock.blockAcu) > maxOver4.blockAcu;
-    over = over || (tmpSolution.blockFil - targetBlock.blockFil) > maxOver4.blockFil;
-    if (over)
-        return;
-    if (k >= plan.size())
-    {
-        tmpSolution.planNumber = planNumber;
-        solutions.push_back(tmpSolution);
-        return;
-    }
-    auto& chips = chipClassified[plan[k]];//获取当前所需型号的芯片列表
-    for (auto& it : chips)
-    {
-        if (!it.second)
-        {
-            //芯片未被使用
-            it.second = true;
-            tmpSolution.chipIndex[k] = it.first;
-            add(tmpSolution, (*chipsPtr)[it.first]);
-            findSolutionMaxOver4(plan, k + 1);
             it.second = false;//恢复记录
             sub(tmpSolution, (*chipsPtr)[it.first]);
         }
@@ -270,4 +182,50 @@ void sub(Solution& s, const GFChip& c)
     s.valueAcu -= v.blockAcu;
     s.valueDbk -= v.blockDbk;
     s.valueFil -= v.blockFil;
+}
+
+bool checkSolution()
+{
+    switch (workType)
+    {
+    case AllSolutions:
+        return true;
+    case FiltrateBlocks:
+    {
+        bool over = false;
+        over = over || (tmpSolution.blockDmg - targetBlock.blockDmg) > maxOver4.blockDmg;
+        over = over || (tmpSolution.blockDbk - targetBlock.blockDbk) > maxOver4.blockDbk;
+        over = over || (tmpSolution.blockAcu - targetBlock.blockAcu) > maxOver4.blockAcu;
+        over = over || (tmpSolution.blockFil - targetBlock.blockFil) > maxOver4.blockFil;
+        return !over;
+    }
+        break;
+    case FiltrateOverflow:
+    {
+        double over = 0;
+        over += std::max(0.0, tmpSolution.blockDmg - targetBlock.blockDmg);
+        over += std::max(0.0, tmpSolution.blockAcu - targetBlock.blockAcu);
+        over += std::max(0.0, tmpSolution.blockDbk - targetBlock.blockDbk);
+        over += std::max(0.0, tmpSolution.blockFil - targetBlock.blockFil);
+        return over <= maxOver;
+    }
+    default:
+        return false;
+    }
+}
+
+void privateSolveChip(const std::vector<GFChip>& chips, const Plans& plans)
+{
+    solutions.clear();
+    chipsPtr = &chips;
+    classifyChip(chips);
+    for (auto i = 0; i < plans.size(); ++i)
+    {
+        if (!satisfyPlan(plans[i]))
+        {
+            continue;
+        }
+        planNumber = i;
+        findSolution(plans[i]);
+    }
 }

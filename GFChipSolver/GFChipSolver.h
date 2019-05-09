@@ -1,6 +1,7 @@
 #pragma once
 #include "solverStdafx.h"
 #include <vector>
+#include <memory.h>
 #include "GFChip.h"
 #include "GFChipPlans.h"
 

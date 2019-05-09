@@ -1,15 +1,11 @@
 #include "GFChip.h"
 #include <vector>
 #include <sstream>
+#include <cctype>
 #include <cmath>
-#include "split.h"
 #include <ctype.h>
-#include <stdlib.h>
+#include "split.h"
 using namespace std;
-
-static constexpr double argDmg = 4.4, argDbk = 12.7, argAcu = 7.1, argFil = 5.7;
-static constexpr double den56 = 1.0, den551 = 1.0, den552 = 0.92;
-static constexpr double argLv[21] = { 1.0,1.08,1.16,1.24,1.32,1.4,1.48,1.56,1.64,1.72,1.8,1.87,1.94,2.01,2.08,2.15,2.22,2.29,2.36,2.43,2.5 };
 
 string toLower(const string& str)
 {
@@ -22,14 +18,14 @@ string toLower(const string& str)
 }
 
 GFChip::GFChip():chipNum(1), chipColor(1), chipClass(56), chipType(1), chipLevel(0), blockAcu(0),
-blockFil(0), blockDmg(6), blockDbk(0), weight(1), typeId(chipClass * 100 + chipType)
+blockFil(0), blockDmg(6), blockDbk(0), weight(1)
 {
 }
 
 GFChip::GFChip(int chipNum, int chipColor, int chipClass, int chipType, int chipLevel, int blockAcu, int blockFil,
     int blockDmg, int blockDbk, int weight) :
     chipNum(chipNum), chipColor(chipColor), chipClass(chipClass), chipType(chipType), chipLevel(chipLevel), blockAcu(blockAcu),
-    blockFil(blockFil), blockDmg(blockDmg), blockDbk(blockDbk), weight(weight), typeId(chipClass * 100 + chipType)
+    blockFil(blockFil), blockDmg(blockDmg), blockDbk(blockDbk), weight(weight)
 {
 }
 
@@ -90,28 +86,12 @@ GFChip GFChip::createFromSaveCode(const std::string& code)
     return chip;
 }
 
-GFChip GFChip::calcValue() const
-{
-    GFChip chip;
-    chip = *this;
-    double den = den56;
-    if (this->chipClass == GF_CHIP_CLASS_551)
-    {
-        den = den551;
-    }
-    chip.blockDmg = ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel]);
-    chip.blockDbk = ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel]);
-    chip.blockAcu = ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel]);
-    chip.blockFil = ceil(ceil(this->blockFil * argFil * den) * argLv[chipLevel]);
-    return chip;
-}
-
 std::string GFChip::toExcelLine() const
 {
     string line;
     line += to_string(this->chipNum) + ',';
     double den = den56;
-    if (this->chipClass == GF_CHIP_CLASS_56)
+    if (this->chipClass == 56)
     {
         if(this->chipType > 40)
         {
@@ -128,66 +108,66 @@ std::string GFChip::toExcelLine() const
         den = den551;
         switch(this->chipType)
         {
-        case GF_CHIP_TYPE_FA:
+        case 11:
             line += "Fa";
             break;
-        case GF_CHIP_TYPE_FB:
+        case 12:
             line += "Fb";
             break;
-        case GF_CHIP_TYPE_T:
+        case 4:
             line += "T";
             break;
-        case GF_CHIP_TYPE_X:
+        case 6:
             line += "X";
             break;
-        case GF_CHIP_TYPE_YA:
+        case 31:
             line += "Ya";
             break;
-        case GF_CHIP_TYPE_YB:
+        case 32:
             line += "Yb";
             break;
-        case GF_CHIP_TYPE_NA:
+        case 21:
             line += "Na";
             break;
-        case GF_CHIP_TYPE_NB:
+        case 22:
             line += "Nb";
             break;
-        case GF_CHIP_TYPE_W:
+        case 5:
             line += "W";
             break;
-        case GF_CHIP_TYPE_B:
+        case 81:
             line += "b";
             den = den552;
             break;
-        case GF_CHIP_TYPE_D:
+        case 82:
             line += "d";
             den = den552;
             break;
-        case GF_CHIP_TYPE_I:
+        case 9:
             line += "I";
             den = den552;
             break;
-        case GF_CHIP_TYPE_C:
+        case 10:
             line += "C";
             den = den552;
             break;
-        case GF_CHIP_TYPE_Z:
+        case 111:
             line += "Z";
             den = den552;
             break;
-        case GF_CHIP_TYPE_Z_:
+        case 112:
             line += "Z-";
             den = den552;
             break;
-        case GF_CHIP_TYPE_V:
+        case 120:
             line += "V";
             den = den552;
             break;
-        case GF_CHIP_TYPE_L:
+        case 131:
             line += "L";
             den = den552;
             break;
-        case GF_CHIP_TYPE_L_:
+        case 132:
             line += "L-";
             den = den552;
             break;
@@ -201,11 +181,10 @@ std::string GFChip::toExcelLine() const
     line += to_string(this->blockAcu) + ',';
     line += to_string(this->blockFil) + ',';
     line += to_string(this->chipLevel) + ',';
-    const auto value = calcValue();
-    line += to_string(value.blockDmg) + ',';
-    line += to_string(value.blockDbk) + ',';
-    line += to_string(value.blockAcu) + ',';
-    line += to_string(value.blockFil) + ',';
+    line += to_string(ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel])) + ',';
+    line += to_string(ceil(ceil(this->blockFil * argFil * den) * argLv[chipLevel])) + ',';
 
     return line;
 }
@@ -229,79 +208,83 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     if(isalpha(list[1][0]))
     {
         // starting with word must be 551
-        chip.chipClass = GF_CHIP_CLASS_551;
+        chip.chipClass = 551;
         // deal with type
         if (list[1] == "fa")
         {
-            chip.chipType = GF_CHIP_TYPE_FA;
+            chip.chipType = 11;
         }
         else if (list[1] == "fb")
         {
-            chip.chipType = GF_CHIP_TYPE_FB;
+            chip.chipType = 12;
+        }
+        else if (list[1] == "fb")
+        {
+            chip.chipType = 12;
         }
         else if (list[1] == "t")
         {
-            chip.chipType = GF_CHIP_TYPE_T;
+            chip.chipType = 4;
         }
         else if (list[1] == "x")
         {
-            chip.chipType = GF_CHIP_TYPE_X;
+            chip.chipType = 6;
         }
         else if (list[1] == "ya")
         {
-            chip.chipType = GF_CHIP_TYPE_YA;
+            chip.chipType = 31;
         }
         else if (list[1] == "yb")
         {
-            chip.chipType = GF_CHIP_TYPE_YB;
+            chip.chipType = 32;
         }
         else if (list[1] == "na")
         {
-            chip.chipType = GF_CHIP_TYPE_NA;
+            chip.chipType = 21;
         }
         else if (list[1] == "nb")
         {
-            chip.chipType = GF_CHIP_TYPE_NB;
+            chip.chipType = 22;
         }
         else if (list[1] == "w")
         {
-            chip.chipType = GF_CHIP_TYPE_W;
+            chip.chipType = 5;
         }
         else if (list[1] == "b")
         {
-            chip.chipType = GF_CHIP_TYPE_B;
+            chip.chipType = 81;
         }
         else if (list[1] == "d")
         {
-            chip.chipType = GF_CHIP_TYPE_D;
+            chip.chipType = 82;
         }
         else if (list[1] == "i")
         {
-            chip.chipType = GF_CHIP_TYPE_I;
+            chip.chipType = 9;
         }
         else if (list[1] == "c")
         {
-            chip.chipType = GF_CHIP_TYPE_C;
+            chip.chipType = 10;
         }
         else if (list[1] == "z")
         {
-            chip.chipType = GF_CHIP_TYPE_Z;
+            chip.chipType = 111;
         }
         else if (list[1] == "z-")
         {
-            chip.chipType = GF_CHIP_TYPE_Z_;
+            chip.chipType = 112;
         }
         else if (list[1] == "v")
         {
-            chip.chipType = GF_CHIP_TYPE_V;
+            chip.chipType = 120;
         }
         else if (list[1] == "l")
         {
-            chip.chipType = GF_CHIP_TYPE_L;
+            chip.chipType = 131;
         }
         else if (list[1] == "l-")
         {
-            chip.chipType = GF_CHIP_TYPE_L_;
+            chip.chipType = 132;
         }
         else
         {
@@ -310,15 +293,15 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     }
     else
     {
-        chip.chipClass = GF_CHIP_CLASS_56;
+        chip.chipClass = 56;
         // deal with type
         if (list[1] == "4a")
         {
-            chip.chipType = GF_CHIP_TYPE_4A;
+            chip.chipType = 41;
         }
         else if (list[1] == "4b")
         {
-            chip.chipType = GF_CHIP_TYPE_4B;
+            chip.chipType = 42;
         }
         else
         {

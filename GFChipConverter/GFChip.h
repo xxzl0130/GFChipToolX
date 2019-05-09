@@ -1,42 +1,7 @@
 #pragma once
 #include <string>
-#include "chipStdafx.h"
 
-//56
-#define GF_CHIP_CLASS_56        56
-#define GF_CHIP_TYPE_1          1
-#define GF_CHIP_TYPE_2          2
-#define GF_CHIP_TYPE_3          3
-#define GF_CHIP_TYPE_4A         41
-#define GF_CHIP_TYPE_4B         42
-#define GF_CHIP_TYPE_5          5
-#define GF_CHIP_TYPE_6          6
-#define GF_CHIP_TYPE_7          7
-#define GF_CHIP_TYPE_8          8
-#define GF_CHIP_TYPE_9          9
-//551
-#define GF_CHIP_CLASS_551       551
-#define GF_CHIP_TYPE_FA         11
-#define GF_CHIP_TYPE_FB         12
-#define GF_CHIP_TYPE_NA         21
-#define GF_CHIP_TYPE_NB         22
-#define GF_CHIP_TYPE_YA         31
-#define GF_CHIP_TYPE_YB         32
-#define GF_CHIP_TYPE_T          4
-#define GF_CHIP_TYPE_W          5
-#define GF_CHIP_TYPE_X          6
-//552
-#define GF_CHIP_TYPE_B          81
-#define GF_CHIP_TYPE_D          82
-#define GF_CHIP_TYPE_I          9
-#define GF_CHIP_TYPE_C          10
-#define GF_CHIP_TYPE_Z          111
-#define GF_CHIP_TYPE_Z_         112
-#define GF_CHIP_TYPE_V          120
-#define GF_CHIP_TYPE_L          131
-#define GF_CHIP_TYPE_L_         132
-
-class CHIP_EXP GFChip
+class GFChip
 {
 public:
     GFChip();
@@ -55,7 +20,6 @@ public:
     int blockDmg;       // damage block num
     int blockDbk;       // defence-breaking block num
     int weight;         // weight, currently not used, keep same with GFTool
-    int typeId;         // Unique type id, because type has same code
 
     // to save coed used by GFTool, without end char '&'
     std::string toSaveCode() const;
@@ -64,9 +28,6 @@ public:
     // create from save coed used by GFTool, without '&', '[', ']', like "1,1,551,120,0,2,0,1,2,1"
     static GFChip createFromSaveCode(const std::string& code);
 
-    //计算属性数值，返回的对象中的block属性不再是格数而是数值。
-    GFChip calcValue() const;
-
     // to excel line by cups
     std::string toExcelLine() const;
     // create from line of cups excel
@@ -74,5 +35,8 @@ public:
     // create from line of cups excel
     static GFChip createFromExcelLine(const std::string& line);
 private:
+    static constexpr double argDmg = 4.4, argDbk = 12.7, argAcu = 7.1, argFil = 5.7;
+    static constexpr double den56 = 1.0, den551 = 1.0, den552 = 0.92;
+    static constexpr double argLv[21] = {1.0,1.08,1.16,1.24,1.32,1.4,1.48,1.56,1.64,1.72,1.8,1.87,1.94,2.01,2.08,2.15,2.22,2.29,2.36,2.43,2.5 };
 };
 
