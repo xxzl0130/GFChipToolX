@@ -1,5 +1,5 @@
 # GFChipToolX
-A GF chip tpplset.
+A GF chip toolset.
 
 少女前线工具X
 
