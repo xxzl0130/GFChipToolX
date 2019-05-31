@@ -225,7 +225,7 @@ int readFile(const char* filename)
         //简单校验网页版代码
         return 1;
     }
-    else if(strstr(buffer,"0,1,5,13,8,6") || strstr(buffer,"2,0,,Fb,0,,La"))
+    else if(strstr(buffer,"2,0,,Fb,0,,La"))
     {
         //以excel里的一段固定文本为校验
         return 2;

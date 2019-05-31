@@ -22,14 +22,14 @@ string toLower(const string& str)
 }
 
 GFChip::GFChip():chipNum(1), chipColor(1), chipClass(56), chipType(1), chipLevel(0), blockAcu(0),
-blockFil(0), blockDmg(6), blockDbk(0), weight(1), typeId(chipClass * 100 + chipType)
+blockFil(0), blockDmg(6), blockDbk(0), weight(1), typeId(chipClass * 100 + chipType),den(den56)
 {
 }
 
 GFChip::GFChip(int chipNum, int chipColor, int chipClass, int chipType, int chipLevel, int blockAcu, int blockFil,
     int blockDmg, int blockDbk, int weight) :
     chipNum(chipNum), chipColor(chipColor), chipClass(chipClass), chipType(chipType), chipLevel(chipLevel), blockAcu(blockAcu),
-    blockFil(blockFil), blockDmg(blockDmg), blockDbk(blockDbk), weight(weight), typeId(chipClass * 100 + chipType)
+    blockFil(blockFil), blockDmg(blockDmg), blockDbk(blockDbk), weight(weight), typeId(chipClass * 100 + chipType),den(den56)
 {
 }
 
@@ -95,11 +95,6 @@ GFChip GFChip::calcValue() const
 {
     GFChip chip;
     chip = *this;
-    double den = den56;
-    if (this->chipClass == GF_CHIP_CLASS_551)
-    {
-        den = den551;
-    }
     chip.blockDmg = ceil(ceil(this->blockDmg * argDmg * den) * argLv[chipLevel]);
     chip.blockDbk = ceil(ceil(this->blockDbk * argDbk * den) * argLv[chipLevel]);
     chip.blockAcu = ceil(ceil(this->blockAcu * argAcu * den) * argLv[chipLevel]);
@@ -197,11 +192,12 @@ std::string GFChip::toExcelLine() const
         }
         line += ',';
     }
+    line += to_string(this->chipLevel) + ',';
     line += to_string(this->blockDmg) + ',';
     line += to_string(this->blockDbk) + ',';
     line += to_string(this->blockAcu) + ',';
     line += to_string(this->blockFil) + ',';
-    line += to_string(this->chipLevel) + ',';
+    line += to_string(den) + ',';
     const auto value = calcValue();
     line += to_string(value.blockDmg) + ',';
     line += to_string(value.blockDbk) + ',';
@@ -231,6 +227,7 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
     {
         // starting with word must be 551
         chip.chipClass = GF_CHIP_CLASS_551;
+        chip.den = den551;
         // deal with type
         if (list[1] == "fa")
         {
@@ -271,38 +268,47 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
         else if (list[1] == "pb")
         {
             chip.chipType = GF_CHIP_TYPE_B;
+            chip.den = den552;
         }
         else if (list[1] == "pa")
         {
             chip.chipType = GF_CHIP_TYPE_D;
+            chip.den = den552;
         }
         else if (list[1] == "i")
         {
             chip.chipType = GF_CHIP_TYPE_I;
+            chip.den = den552;
         }
         else if (list[1] == "u")
         {
             chip.chipType = GF_CHIP_TYPE_C;
+            chip.den = den552;
         }
         else if (list[1] == "za")
         {
             chip.chipType = GF_CHIP_TYPE_Z;
+            chip.den = den552;
         }
         else if (list[1] == "zb")
         {
             chip.chipType = GF_CHIP_TYPE_Z_;
+            chip.den = den552;
         }
         else if (list[1] == "v")
         {
             chip.chipType = GF_CHIP_TYPE_V;
+            chip.den = den552;
         }
         else if (list[1] == "la")
         {
             chip.chipType = GF_CHIP_TYPE_L;
+            chip.den = den552;
         }
         else if (list[1] == "lb")
         {
             chip.chipType = GF_CHIP_TYPE_L_;
+            chip.den = den552;
         }
         else
         {
@@ -326,19 +332,13 @@ GFChip GFChip::createFromExcelLine(const std::string& line)
         {
             chip.chipType = atoi(list[1].c_str());
         }
+        chip.den = den56;
     }
+    chip.chipLevel = atoi(list[6].c_str());
     chip.blockDmg = atoi(list[2].c_str());
     chip.blockDbk = atoi(list[3].c_str());
     chip.blockAcu = atoi(list[4].c_str());
     chip.blockFil = atoi(list[5].c_str());
-    if(list.size() > 6)
-    {
-        chip.chipLevel = atoi(list[6].c_str());
-    }
-    else
-    {
-        chip.chipLevel = 0;
-    }
     if (chip.chipLevel > 20)
     {
         chip.chipLevel = 20;

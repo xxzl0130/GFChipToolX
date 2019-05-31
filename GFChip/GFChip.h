@@ -56,6 +56,7 @@ public:
     int blockDbk;       // defence-breaking block num
     int weight;         // weight, currently not used, keep same with GFTool
     int typeId;         // Unique type id, because type has same code
+    double den;         // density
 
     // to save coed used by GFTool, without end char '&'
     std::string toSaveCode() const;
