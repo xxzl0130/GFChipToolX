@@ -1,6 +1,10 @@
 #pragma once
-#ifdef _LIB
-#define CHIP_EXP __declspec(dllexport)
+#ifdef _WINDLL
+    #define CHIP_EXP __declspec(dllexport)
 #else
-#define CHIP_EXP __declspec(dllimport)
+    #ifdef CHIP_IMPORT
+        #define CHIP_EXP __declspec(dllimport)
+    #else
+        #define CHIP_EXP
+    #endif
 #endif

@@ -18,10 +18,10 @@
     <ClInclude Include="GFChip.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="split.h">
+    <ClInclude Include="chipStdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="chipStdafx.h">
+    <ClInclude Include="split.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

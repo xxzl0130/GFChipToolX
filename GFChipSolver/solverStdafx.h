@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#ifdef _USRDLL
+#ifdef _WINDLL
 #define SOLVER_EXP __declspec(dllexport)
 #else
 #define SOLVER_EXP __declspec(dllimport)

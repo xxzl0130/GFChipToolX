@@ -4,7 +4,7 @@
 #include "split.h"
 #include "GFChip.h"
 #include "GFChipSolver.h"
-#include <stdio.h>
+#include <cstdio>
 using namespace std;
 
 char buffer[1024000];
@@ -44,6 +44,7 @@ int main()
             chip.chipNum = blueChips.size() + 1;
             blueChips.push_back(chip);
         }
+        auto t = chip.toExcelLine();
     }
     auto t0 = clock();
     auto target = Block(10, 4, 7, 17);

@@ -4,15 +4,15 @@
 #include <string>
 #include <conio.h>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <cctype>
 #include <ctime>
-#include <time.h>
+#include <ctime>
 #include <sys/stat.h>
 
 #include "split.h"
 #include "GFChip.h"
-#include <ctype.h>
+#include <cctype>
 using namespace std;
 
 char *buffer;
@@ -135,6 +135,7 @@ void web2Excel()
     fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
     for (const auto& it : redChips)
     {
+        auto t = it.toExcelLine();
         fout << it.toExcelLine() << endl;
     }
     fout.close();
@@ -160,6 +161,11 @@ void excel2Web(int color)
             break;
         }
         auto chip = GFChip::createFromExcelLine(it);
+        if(chip.typeId == 0)
+        {
+            //id=0代表错误
+            continue;
+        }
         chip.chipColor = color;
         chips.push_back(chip);
     }
@@ -219,7 +225,7 @@ int readFile(const char* filename)
         //简单校验网页版代码
         return 1;
     }
-    else if(strstr(buffer,"0,1,5,13,8,6"))
+    else if(strstr(buffer,"0,1,5,13,8,6") || strstr(buffer,"2,0,,Fb,0,,La"))
     {
         //以excel里的一段固定文本为校验
         return 2;
