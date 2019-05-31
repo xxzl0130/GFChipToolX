@@ -197,6 +197,7 @@ std::string GFChip::toExcelLine() const
     line += to_string(this->blockDbk) + ',';
     line += to_string(this->blockAcu) + ',';
     line += to_string(this->blockFil) + ',';
+    line += to_string(argLv[this->chipLevel]) + ",";   //Ç¿»¯²¹Õý
     line += to_string(den) + ',';
     const auto value = calcValue();
     line += to_string(value.blockDmg) + ',';

@@ -132,7 +132,7 @@ void web2Excel()
 
     fstream fout;
     fout.open("RedChips " + timeStr + ".csv", ios::out);
-    fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
+    fout << "芯片编号,形状代号,强化等级,杀伤,破防,精度,装填,强化补正,密度补正,杀伤,破防,精度,装填," << endl;
     for (const auto& it : redChips)
     {
         auto t = it.toExcelLine();
@@ -140,7 +140,7 @@ void web2Excel()
     }
     fout.close();
     fout.open("BlueChips " + timeStr + ".csv", ios::out);
-    fout << "芯片编号,形状代号,杀伤,破防,精度,装填,强化等级,杀伤,破防,精度,装填," << endl;
+    fout << "芯片编号,形状代号,强化等级,杀伤,破防,精度,装填,强化补正,密度补正,杀伤,破防,精度,装填,"  << endl;
     for (const auto& it : blueChips)
     {
         fout << it.toExcelLine() << endl;
