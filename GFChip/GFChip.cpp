@@ -193,17 +193,17 @@ std::string GFChip::toExcelLine() const
         line += ',';
     }
     line += to_string(this->chipLevel) + ',';
-    line += to_string(this->blockDmg) + ',';
-    line += to_string(this->blockDbk) + ',';
-    line += to_string(this->blockAcu) + ',';
-    line += to_string(this->blockFil) + ',';
-    line += to_string(argLv[this->chipLevel]) + ",";   //强化补正
-    line += to_string(den) + ',';
     const auto value = calcValue();
     line += to_string(value.blockDmg) + ',';
     line += to_string(value.blockDbk) + ',';
     line += to_string(value.blockAcu) + ',';
     line += to_string(value.blockFil) + ',';
+    line += to_string(argLv[this->chipLevel]) + ",";   //强化补正
+    line += to_string(den) + ',';
+    line += to_string(this->blockDmg) + ',';
+    line += to_string(this->blockDbk) + ',';
+    line += to_string(this->blockAcu) + ',';
+    line += to_string(this->blockFil) + ',';
 
     return line;
 }
