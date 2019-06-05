@@ -52,8 +52,13 @@ int main(int argc,char** argv)
     else
     {
         helperMain();
-        cin >> tmpStr;
-        getchar();
+        char t;
+        while((t = getchar()) != '\n')
+        {
+            if(t == '\"')
+                continue;
+            tmpStr += t;
+        }
         filename = tmpStr.c_str();
     }
     switch (readFile(filename))
@@ -219,13 +224,12 @@ int readFile(const char* filename)
         buffer[len - 1] = '\0';
         --len;
     }
-    auto t = &buffer[len - 10];
     if(buffer[0] == '[' && isalpha(buffer[1]) && buffer[2] == '!' && buffer[len - 1] == ']')
     {
         //简单校验网页版代码
         return 1;
     }
-    else if(strstr(buffer,"2,0,,Fb,0,,La"))
+    else if(strstr(buffer,u8"装填,强化补正,密度补正"))
     {
         //以excel里的一段固定文本为校验
         return 2;
