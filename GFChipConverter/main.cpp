@@ -119,10 +119,11 @@ void web2Excel()
     {
         // create chips
         auto chip = GFChip::createFromSaveCode(it);
-        if (chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110 || chip.chipType == 81 || chip.chipType == 82)
+        //5-block-2-type now is using in excel
+        /*if (chip.chipClass == 551 && (chip.chipType == 9 || chip.chipType == 10 || chip.chipType > 110 || chip.chipType == 81 || chip.chipType == 82))
         {//5-block-2-type not used in excel
             continue;
-        }
+        }*/
         if (chip.chipColor == 2)
         {
             chip.chipNum = redChips.size() + 1;
