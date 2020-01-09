@@ -1,0 +1,6 @@
+[submodule "3rdparty/CJsonObject"]
+	path = 3rdparty/CJsonObject
+	url = https://github.com/Bwar/CJsonObject.git
+[submodule "3rdparty/dlx"]
+	path = 3rdparty/dlx
+	url = https://github.com/jlaire/dlx-cpp.git
