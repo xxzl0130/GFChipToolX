@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFChip", "GFChip\GFChip.vcxproj", "{21D71412-3BE9-4D19-870B-FBD53A808FDD}"
 EndProject
@@ -22,6 +22,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testSolver", "testSolver\te
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFChipLib", "GFChipLib\GFChipLib.vcxproj", "{F92996DF-CC11-4715-909F-AC768555F57F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3rdparty", "3rdparty\3rdparty.vcxproj", "{AF856E01-B621-42A4-9F1C-28427264A8B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFChipDLX", "GFChipDLX\GFChipDLX.vcxproj", "{0E6240A4-F62E-4725-90AD-548D08A7D715}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,22 @@ Global
 		{F92996DF-CC11-4715-909F-AC768555F57F}.Release|x64.Build.0 = Release|x64
 		{F92996DF-CC11-4715-909F-AC768555F57F}.Release|x86.ActiveCfg = Release|Win32
 		{F92996DF-CC11-4715-909F-AC768555F57F}.Release|x86.Build.0 = Release|Win32
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Debug|x64.ActiveCfg = Debug|x64
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Debug|x64.Build.0 = Debug|x64
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Debug|x86.Build.0 = Debug|Win32
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Release|x64.ActiveCfg = Release|x64
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Release|x64.Build.0 = Release|x64
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Release|x86.ActiveCfg = Release|Win32
+		{AF856E01-B621-42A4-9F1C-28427264A8B4}.Release|x86.Build.0 = Release|Win32
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Debug|x64.ActiveCfg = Debug|x64
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Debug|x64.Build.0 = Debug|x64
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Debug|x86.ActiveCfg = Debug|Win32
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Debug|x86.Build.0 = Debug|Win32
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Release|x64.ActiveCfg = Release|x64
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Release|x64.Build.0 = Release|x64
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Release|x86.ActiveCfg = Release|Win32
+		{0E6240A4-F62E-4725-90AD-548D08A7D715}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
