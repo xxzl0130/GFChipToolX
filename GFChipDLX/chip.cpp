@@ -91,5 +91,9 @@ Map putChip(const Map& base, const Map& chip, int x, int y, bool* ok)
 			ret[i + y][j + x] = c;
 		}
 	}
+	if (ok != nullptr)
+	{
+		*ok = true;
+	}
 	return ret;
 }
