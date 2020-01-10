@@ -163,7 +163,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="chip.cpp" />
     <ClCompile Include="GFChipDLX.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

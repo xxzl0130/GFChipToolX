@@ -1,0 +1,475 @@
+[
+    {
+        "class": "56",
+        "width": 3,
+        "height": 2,
+        "blocks": 6,
+        "name": "1",
+        "map": [
+            "111",
+            "111"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "56",
+        "width": 3,
+        "height": 3,
+        "blocks": 6,
+        "name": "2",
+        "map": [
+            "111",
+            "110",
+            "100"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "56",
+        "width": 4,
+        "height": 2,
+        "blocks": 6,
+        "name": "3",
+        "map": [
+            "1111",
+            "0110"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "56",
+        "width": 4,
+        "height": 2,
+        "blocks": 6,
+        "name": "4a",
+        "map": [
+            "1110",
+            "0111"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "56",
+        "width": 4,
+        "height": 2,
+        "blocks": 6,
+        "name": "4b",
+        "map": [
+            "0111",
+            "1110"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "56",
+        "width": 3,
+        "height": 3,
+        "blocks": 6,
+        "name": "5",
+        "map": [
+            "110",
+            "011",
+            "110"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "56",
+        "width": 3,
+        "height": 4,
+        "blocks": 6,
+        "name": "6",
+        "map": [
+            "010",
+            "111",
+            "010",
+            "010"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "56",
+        "width": 6,
+        "height": 1,
+        "blocks": 6,
+        "name": "7",
+        "map": [
+            "111111"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "56",
+        "width": 4,
+        "height": 2,
+        "blocks": 6,
+        "name": "8",
+        "map": [
+            "1111",
+            "1001"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "56",
+        "width": 3,
+        "height": 3,
+        "blocks": 6,
+        "name": "9",
+        "map": [
+            "110",
+            "111",
+            "010"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "Fa",
+        "map": [
+            "011",
+            "110",
+            "010"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "Fb",
+        "map": [
+            "110",
+            "011",
+            "010"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "Na",
+        "map": [
+            "1110",
+            "0011"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "Nb",
+        "map": [
+            "0111",
+            "1100"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "T",
+        "map": [
+            "111",
+            "010",
+            "010"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "W",
+        "map": [
+            "011",
+            "110",
+            "100"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "X",
+        "map": [
+            "010",
+            "111",
+            "010"
+        ],
+        "rotate": [
+            0
+        ]
+    },
+    {
+        "class": "551",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "Ya",
+        "map": [
+            "0010",
+            "1111"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "551",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "Yb",
+        "map": [
+            "0100",
+            "1111"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 2,
+        "height": 3,
+        "blocks": 5,
+        "name": "b",
+        "map": [
+            "10",
+            "11",
+            "11"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 2,
+        "height": 3,
+        "blocks": 5,
+        "name": "d",
+        "map": [
+            "01",
+            "11",
+            "11"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 5,
+        "height": 1,
+        "blocks": 5,
+        "name": "I",
+        "map": [
+            "11111"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "552",
+        "width": 2,
+        "height": 3,
+        "blocks": 5,
+        "name": "c",
+        "map": [
+            "11",
+            "10",
+            "11"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "z",
+        "map": [
+            "110",
+            "010",
+            "011"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "552",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "z-",
+        "map": [
+            "011",
+            "010",
+            "110"
+        ],
+        "rotate": [
+            0,
+            1
+        ]
+    },
+    {
+        "class": "552",
+        "width": 3,
+        "height": 3,
+        "blocks": 5,
+        "name": "v",
+        "map": [
+            "111",
+            "100",
+            "100"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "L",
+        "map": [
+            "1111",
+            "1000"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "class": "552",
+        "width": 4,
+        "height": 2,
+        "blocks": 5,
+        "name": "L-",
+        "map": [
+            "1111",
+            "0001"
+        ],
+        "rotate": [
+            0,
+            1,
+            2,
+            3
+        ]
+    }
+]
