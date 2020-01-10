@@ -38,7 +38,7 @@ Chip Chip::rotate90(int n) const
 		{
 			for (auto j = 0u; j < r[i].length(); ++j)
 			{
-				r[i][j] = map[j][map[j].length() - i - 1];
+				r[i][j] = map[map.size() - j - 1][i];
 			}
 		}
 		return r;

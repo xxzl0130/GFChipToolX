@@ -23,7 +23,7 @@ public:
 	Map map;
 
 	std::vector<unsigned> toRow();
-	Chip rotate90(int n = 1) const; // anti-clockwise
+	Chip rotate90(int n = 1) const; // clockwise
 };
 
 struct ChipOption

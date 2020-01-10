@@ -84,15 +84,15 @@ int main(int argc,char** argv)
 		
 		for(auto j = 0;j < rotate.GetArraySize();++j)
 		{
-			// 旋转为逆时针
+			// 旋转为顺时针
 			// x水平向右，y竖直向下，原点左上角
 			rotate.Get(j, copt.rotate);
+			auto map = chip.rotate90(copt.rotate).map;
 			for(copt.x = 0; copt.x < width;++copt.x)
 			{
 				for(copt.y = 0; copt.y < height;++copt.y)
 				{
-					auto t = putChip(base, chip.rotate90(copt.rotate).map,
-						copt.x, copt.y, &ok);
+					auto t = putChip(base, map,	copt.x, copt.y, &ok);
 					if(ok)
 					{
 						chipOptions.push_back(copt);
