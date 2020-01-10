@@ -1,7 +1,7 @@
 #include "chip.h"
 using namespace std;
 
-Chip::Chip(): no(0), chipClass(56), width(0), height(0), blocks(0)
+Chip::Chip(): no(0), chipClass(56), width(0), height(0), blocks(0), id(0)
 {
 }
 
@@ -13,6 +13,7 @@ Chip::Chip(neb::CJsonObject& oJson)
 	oJson.Get("height", this->height);
 	oJson.Get("blocks", this->blocks);
 	oJson.Get("name", this->name);
+	oJson.Get("ID", this->id);
 	auto oMap = oJson["map"];
 	for(auto i = 0;i < oMap.GetArraySize();++i)
 	{

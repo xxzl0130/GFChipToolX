@@ -1,6 +1,7 @@
 [
     {
-        "class": "56",
+        "class": 56,
+        "ID":5601,
         "width": 3,
         "height": 2,
         "blocks": 6,
@@ -15,7 +16,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5602,
         "width": 3,
         "height": 3,
         "blocks": 6,
@@ -33,7 +35,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5603,
         "width": 4,
         "height": 2,
         "blocks": 6,
@@ -50,7 +53,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5641,
         "width": 4,
         "height": 2,
         "blocks": 6,
@@ -65,7 +69,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5642,
         "width": 4,
         "height": 2,
         "blocks": 6,
@@ -80,7 +85,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5605,
         "width": 3,
         "height": 3,
         "blocks": 6,
@@ -98,7 +104,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5606,
         "width": 3,
         "height": 4,
         "blocks": 6,
@@ -117,7 +124,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5607,
         "width": 6,
         "height": 1,
         "blocks": 6,
@@ -131,7 +139,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5608,
         "width": 4,
         "height": 2,
         "blocks": 6,
@@ -148,7 +157,8 @@
         ]
     },
     {
-        "class": "56",
+        "class": 56,
+        "ID":5609,
         "width": 3,
         "height": 3,
         "blocks": 6,
@@ -166,7 +176,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55111,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -184,7 +195,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55112,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -202,7 +214,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55121,
         "width": 4,
         "height": 2,
         "blocks": 5,
@@ -219,7 +232,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55122,
         "width": 4,
         "height": 2,
         "blocks": 5,
@@ -236,7 +250,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55104,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -254,7 +269,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55105,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -272,7 +288,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55106,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -287,7 +304,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55131,
         "width": 4,
         "height": 2,
         "blocks": 5,
@@ -304,7 +322,8 @@
         ]
     },
     {
-        "class": "551",
+        "class": 551,
+        "ID":55132,
         "width": 4,
         "height": 2,
         "blocks": 5,
@@ -321,7 +340,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":55281,
         "width": 2,
         "height": 3,
         "blocks": 5,
@@ -339,7 +359,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":55282,
         "width": 2,
         "height": 3,
         "blocks": 5,
@@ -357,7 +378,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":55209,
         "width": 5,
         "height": 1,
         "blocks": 5,
@@ -371,7 +393,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":55210,
         "width": 2,
         "height": 3,
         "blocks": 5,
@@ -389,7 +412,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":552111,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -405,7 +429,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":552112,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -421,7 +446,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":552120,
         "width": 3,
         "height": 3,
         "blocks": 5,
@@ -439,7 +465,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":552131,
         "width": 4,
         "height": 2,
         "blocks": 5,
@@ -456,7 +483,8 @@
         ]
     },
     {
-        "class": "552",
+        "class": 552,
+        "ID":552132,
         "width": 4,
         "height": 2,
         "blocks": 5,

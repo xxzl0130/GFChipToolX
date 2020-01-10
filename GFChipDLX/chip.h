@@ -17,6 +17,7 @@ public:
 	int width;
 	int height;
 	int blocks;
+	int id;
 	
 	std::string name;
 	Map map;

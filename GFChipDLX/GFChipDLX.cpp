@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <map>
+#include <algorithm>
 #include "dlx/include/dlx/ExactCoverProblem.hpp"
 #include "dlx/include/dlx/AlgorithmDLX.hpp"
 #include "dlx/include/dlx/LinkedMatrix.hpp"
@@ -24,20 +26,25 @@ int main(int argc,char** argv)
 	neb::CJsonObject chipsObj(readfile(chipFile));
 	neb::CJsonObject tmpObj;
 	int width, height;
-	Map availableChips, base;
+	Map base;
+	vector<int> availableChips;
 	optionObj.Get("width", width);
 	optionObj.Get("height", height);
 	optionObj.Get("chips", tmpObj);
 	if(tmpObj.IsArray())
 	{
+		int t;
 		for(auto i = 0;i < tmpObj.GetArraySize();++i)
 		{
-			availableChips.push_back(tmpObj(i));
+			tmpObj.Get(i, t);
+			availableChips.push_back(t);
 		}
 	}
 	else
 	{
-		availableChips.push_back(optionObj("chips"));
+		int t;
+		optionObj.Get("chips", t);
+		availableChips.push_back(t);
 	}
 	optionObj.Get("map", tmpObj);
 	for(auto i = 0;i < tmpObj.GetArraySize();++i)
@@ -61,14 +68,12 @@ int main(int argc,char** argv)
 	for(auto i = 0;i < chipsObj.GetArraySize();++i)
 	{
 		auto& obj = chipsObj[i];
-		string cls;
-		obj.Get("class", cls);
-		if(!isIn(cls,availableChips))
+		Chip chip(obj);
+		chip.no = chips.size();
+		if (!isIn(chip.chipClass, availableChips))
 		{
 			continue;
 		}
-		Chip chip(obj);
-		chip.no = chips.size();
 		chips.push_back(chip);
 		
 		bool ok;
@@ -100,13 +105,70 @@ int main(int argc,char** argv)
 
 	auto t1 = clock();
 	cout << "Time:" << (double)(t1 - t0) / CLOCKS_PER_SEC << endl;
-	cout << "Solutions:" << result.number_of_solutions << endl;
-	for(const auto& row:result.solutions)
+
+	auto printSolution = [&](const AlgorithmDLX::Solution& s)
 	{
-		for (const auto& it : row)
+		AlgorithmDLX::Solution res;
+		res.resize(rows[0].size(), 0);
+		for(auto i = 1;i < s.size();++i)
 		{
-			cout << chips[chipOptions[it].no].name << ", ";
+			auto row = s[i];
+			for(auto j = 0;j < rows[row].size();++j)
+			{
+				if(rows[row][j])
+				{
+					res[j] = i;
+				}
+			}
+		}
+		for(auto i = 0;i < res.size();++i)
+		{
+			if(i % width == 0)
+			{
+				cout << endl;
+			}
+			cout << res[i];
 		}
 		cout << endl;
+		for(auto i = 1;i < s.size();++i)
+		{
+			cout << i << ":" << chips[chipOptions[s[i]].no].name << ", ";
+		}
+		cout << endl;
+	};
+
+	map<vector<unsigned>, vector<unsigned>> slnMap;
+	for(const auto& row:result.solutions)
+	{
+		vector<unsigned> t;
+		for(auto i = 1;i < row.size();++i)
+		{
+			t.push_back(chipOptions[row[i]].no);
+		}
+		sort(t.begin(), t.end());
+		slnMap[t] = row;
 	}
+
+	cout << "Solutions:" << slnMap.size() << endl;
+	neb::CJsonObject slnObj("[]");
+	for(const auto& it : slnMap)
+	{
+		printSolution(it.second);
+		neb::CJsonObject sObj("[]");
+		for (auto i = 1; i < it.second.size(); ++i)
+		{
+			neb::CJsonObject t;
+			const auto& s = chipOptions[it.second[i]];
+			const auto& c = chips[s.no];
+			t.Add("ID", c.id);
+			t.Add("rotate", s.rotate);
+			t.Add("x", s.x);
+			t.Add("y", s.y);
+			sObj.Add(t);
+		}
+		slnObj.Add(sObj);
+	}
+	fstream fout;
+	fout.open(optionObj("name") + "-result.json", ios_base::out);
+	fout << slnObj.ToString();
 }
