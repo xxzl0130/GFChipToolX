@@ -22,6 +22,7 @@ int main(int argc,char** argv)
 		chipFile = argv[2];
 	}
 
+	// 解析重装配置
 	neb::CJsonObject optionObj(readfile(optFile));
 	neb::CJsonObject chipsObj(readfile(chipFile));
 	neb::CJsonObject tmpObj;
@@ -52,6 +53,7 @@ int main(int argc,char** argv)
 		base.push_back(tmpObj(i));
 	}
 
+	// 解析芯片配置并生成求解矩阵
 	if(!chipsObj.IsArray())
 	{
 		cout << "chips file error !" << endl;
@@ -82,6 +84,8 @@ int main(int argc,char** argv)
 		
 		for(auto j = 0;j < rotate.GetArraySize();++j)
 		{
+			// 旋转为逆时针
+			// x水平向右，y竖直向下，原点左上角
 			rotate.Get(j, copt.rotate);
 			for(copt.x = 0; copt.x < width;++copt.x)
 			{
@@ -99,6 +103,7 @@ int main(int argc,char** argv)
 		}
 	}
 
+	// 求解
 	auto problem = ExactCoverProblem::dense(rows, optionalCols);
 	AlgorithmDLX dlx(problem);
 	auto result = dlx.search();
@@ -106,6 +111,7 @@ int main(int argc,char** argv)
 	auto t1 = clock();
 	cout << "Time:" << (double)(t1 - t0) / CLOCKS_PER_SEC << endl;
 
+	// 打印结果
 	auto printSolution = [&](const AlgorithmDLX::Solution& s)
 	{
 		AlgorithmDLX::Solution res;
@@ -149,6 +155,7 @@ int main(int argc,char** argv)
 		slnMap[t] = row;
 	}
 
+	// 保存结果
 	cout << "Solutions:" << slnMap.size() << endl;
 	neb::CJsonObject slnObj("[]");
 	for(const auto& it : slnMap)
