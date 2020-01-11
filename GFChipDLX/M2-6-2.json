@@ -1,10 +1,10 @@
 {
-    "name": "M2-0",
-    "optional": 0,
+    "name": "M2-6-2",
+    "optional": 2,
     "width": 8,
     "height": 8,
     "blocks": 38,
-    "chips":[56,551,552],
+    "chips":[56],
     "map": [
         "00011110",
         "10001100",

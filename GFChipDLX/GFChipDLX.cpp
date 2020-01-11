@@ -79,15 +79,15 @@ int main(int argc,char** argv)
 		chips.push_back(chip);
 		
 		bool ok;
-		auto& rotate = obj["rotate"];
+		int direction;
+		obj.Get("direction", direction);
 		ChipOption copt(0,0,0,chip.no);
 		
-		for(auto j = 0;j < rotate.GetArraySize();++j)
+		for(auto j = 0;j < direction;++j)
 		{
 			// 旋转为顺时针
 			// x水平向右，y竖直向下，原点左上角
-			rotate.Get(j, copt.rotate);
-			auto map = chip.rotate90(copt.rotate).map;
+			auto map = chip.rotate90(j).map;
 			for(copt.x = 0; copt.x < width;++copt.x)
 			{
 				for(copt.y = 0; copt.y < height;++copt.y)
@@ -102,7 +102,7 @@ int main(int argc,char** argv)
 			}
 		}
 	}
-
+	
 	// 求解
 	auto problem = ExactCoverProblem::dense(rows, optionalCols);
 	AlgorithmDLX dlx(problem);
@@ -110,15 +110,16 @@ int main(int argc,char** argv)
 
 	auto t1 = clock();
 	cout << "Time:" << (double)(t1 - t0) / CLOCKS_PER_SEC << endl;
-
 	// 打印结果
 	auto printSolution = [&](const AlgorithmDLX::Solution& s)
 	{
 		AlgorithmDLX::Solution res;
 		res.resize(rows[0].size(), 0);
-		for(auto i = 1;i < s.size();++i)
+		for(auto i = 0;i < s.size();++i)
 		{
 			auto row = s[i];
+			if(!row)
+				continue;
 			for(auto j = 0;j < rows[row].size();++j)
 			{
 				if(rows[row][j])
@@ -133,23 +134,35 @@ int main(int argc,char** argv)
 			{
 				cout << endl;
 			}
-			cout << res[i];
+			if(res[i])
+			{
+				cout << res[i];
+			}
+			else
+			{
+				cout << ' ';
+			}
 		}
 		cout << endl;
-		for(auto i = 1;i < s.size();++i)
+		for(auto i = 0;i < s.size();++i)
 		{
+			if(!s[i])
+				continue;
 			cout << i << ":" << chips[chipOptions[s[i]].no].name << ", ";
 		}
 		cout << endl;
+		system("pause");
 	};
 
 	map<vector<unsigned>, vector<unsigned>> slnMap;
 	for(const auto& row:result.solutions)
 	{
 		vector<unsigned> t;
-		for(auto i = 1;i < row.size();++i)
+		for (unsigned int i : row)
 		{
-			t.push_back(chipOptions[row[i]].no);
+			if(!i)
+				continue;
+			t.push_back(chipOptions[i].no);
 		}
 		sort(t.begin(), t.end());
 		slnMap[t] = row;
@@ -160,12 +173,14 @@ int main(int argc,char** argv)
 	neb::CJsonObject slnObj("[]");
 	for(const auto& it : slnMap)
 	{
-		printSolution(it.second);
+		//printSolution(it.second);
 		neb::CJsonObject sObj("[]");
-		for (auto i = 1; i < it.second.size(); ++i)
+		for (unsigned int i : it.second)
 		{
+			if(i == 0)
+				continue;
 			neb::CJsonObject t;
-			const auto& s = chipOptions[it.second[i]];
+			const auto& s = chipOptions[i];
 			const auto& c = chips[s.no];
 			t.Add("ID", c.id);
 			t.Add("rotate", s.rotate);

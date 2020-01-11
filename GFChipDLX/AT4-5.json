@@ -1,10 +1,10 @@
 {
-    "name": "AT4-6",
+    "name": "AT4-5",
     "optional": 0,
     "width": 8,
     "height": 8,
     "blocks": 36,
-    "chips":[56],
+    "chips":[56,551,552],
     "map": [
         "11100111",
         "11000011",
