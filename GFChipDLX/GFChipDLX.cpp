@@ -12,6 +12,33 @@
 #include "util.hpp"
 using namespace std;
 
+AlgorithmDLX::Result result;
+vector<vector<unsigned>> rows;
+int optionalCols;
+
+void solve(int k)
+{
+	if (k >= optionalCols)
+	{
+		auto problem = ExactCoverProblem::dense(rows);
+		AlgorithmDLX dlx(problem);
+		auto r = dlx.search();
+		result.number_of_solutions += r.number_of_solutions;
+		result.solutions.insert(result.solutions.end(), r.solutions.begin(), r.solutions.end());
+		result.profile.insert(result.profile.end(), r.profile.begin(), r.profile.end());
+		return;
+	}
+	for (auto& it : rows[0])
+	{
+		if (!it)
+		{
+			it = 1;
+			solve(k + 1);
+			it = 0;
+		}
+	}
+}
+
 int main(int argc,char** argv)
 {
 	auto t0 = clock();
@@ -59,8 +86,7 @@ int main(int argc,char** argv)
 		cout << "chips file error !" << endl;
 		return 0;
 	}
-	vector<vector<unsigned>> rows;
-	int optionalCols;
+	
 	vector<Chip> chips;
 	vector<ChipOption> chipOptions;
 	chips.emplace_back();
@@ -104,9 +130,7 @@ int main(int argc,char** argv)
 	}
 	
 	// 求解
-	auto problem = ExactCoverProblem::dense(rows, optionalCols);
-	AlgorithmDLX dlx(problem);
-	auto result = dlx.search();
+	solve(0);
 
 	auto t1 = clock();
 	cout << "Time:" << (double)(t1 - t0) / CLOCKS_PER_SEC << endl;
