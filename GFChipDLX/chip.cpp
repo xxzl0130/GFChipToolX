@@ -1,7 +1,7 @@
 #include "chip.h"
 using namespace std;
 
-Chip::Chip(): no(0), chipClass(56), width(0), height(0), blocks(0), id(0)
+Chip::Chip(): no(0), chipClass(5061), width(0), height(0), blocks(0), id(0)
 {
 }
 

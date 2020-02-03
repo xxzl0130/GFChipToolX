@@ -13,7 +13,7 @@ public:
 	~Chip() = default;
 
 	int no;
-	int chipClass; //56,551,552,etc
+	int chipClass; //5061,5051,5052,etc
 	int width;
 	int height;
 	int blocks;
