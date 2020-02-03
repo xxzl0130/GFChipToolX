@@ -6,7 +6,7 @@ A GF chip toolset.
 # 模块
 芯片抽象类
 
-拼图解算库
+[拼图解算库](./GFChipDLX/README.md)
 
 芯片代码转换程序
 
