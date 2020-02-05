@@ -18,7 +18,7 @@ int optionalCols;
 
 void solve(int k)
 {
-	if (k >= optionalCols)
+	//
 	{
 		auto problem = ExactCoverProblem::dense(rows);
 		AlgorithmDLX dlx(problem);
@@ -26,6 +26,7 @@ void solve(int k)
 		result.number_of_solutions += r.number_of_solutions;
 		result.solutions.insert(result.solutions.end(), r.solutions.begin(), r.solutions.end());
 		result.profile.insert(result.profile.end(), r.profile.begin(), r.profile.end());
+		if (k >= optionalCols)
 		return;
 	}
 	for (auto& it : rows[0])
@@ -109,11 +110,11 @@ int main(int argc,char** argv)
 		obj.Get("direction", direction);
 		ChipOption copt(0,0,0,chip.no);
 		
-		for(auto j = 0;j < direction;++j)
+		for(copt.rotate = 0; copt.rotate < direction;++copt.rotate)
 		{
 			// 旋转为顺时针
 			// x水平向右，y竖直向下，原点左上角
-			auto map = chip.rotate90(j).map;
+			auto map = chip.rotate90(copt.rotate).map;
 			for(copt.x = 0; copt.x < width;++copt.x)
 			{
 				for(copt.y = 0; copt.y < height;++copt.y)
