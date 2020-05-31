@@ -57,6 +57,7 @@ int main(int argc,char** argv)
 	int width, height;
 	Map base;
 	vector<int> availableChips;
+	map<int, int> id2class;
 	optionObj.Get("width", width);
 	optionObj.Get("height", height);
 	optionObj.Get("chips", tmpObj);
@@ -104,6 +105,10 @@ int main(int argc,char** argv)
 			continue;
 		}
 		chips.push_back(chip);
+		int id, cls;
+		obj.Get("ID", id);
+		obj.Get("class", cls);
+		id2class[id] = cls;
 		
 		bool ok;
 		int direction;
@@ -194,12 +199,12 @@ int main(int argc,char** argv)
 	}
 
 	// 保存结果
-	cout << "Solutions:" << slnMap.size() << endl;
 	neb::CJsonObject slnObj("[]");
 	for(const auto& it : slnMap)
 	{
 		//printSolution(it.second);
 		neb::CJsonObject sObj("[]");
+		int cntCls52 = 0;
 		for (unsigned int i : it.second)
 		{
 			if(i == 0)
@@ -212,9 +217,17 @@ int main(int argc,char** argv)
 			t.Add("x", s.x);
 			t.Add("y", s.y);
 			sObj.Add(t);
+			if(id2class[c.id] == 5052)
+			{
+				++cntCls52;
+			}
 		}
+		if(cntCls52 > 2)
+			continue;
 		slnObj.Add(sObj);
 	}
+
+	cout << "Solutions:" << slnObj.GetArraySize() << endl;
 	fstream fout;
 	fout.open(optionObj("name") + "-result.json", ios_base::out);
 	fout << slnObj.ToString();
