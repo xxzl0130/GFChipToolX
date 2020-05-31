@@ -152,6 +152,8 @@
 |        |        |        |        |        |        |        | ![122] |        |
 |        |        |        |        |        |        |        | ![182] |        |
 
+另：芯片图片素材来自[乐章的少前工具站](https://github.com/hycdes/GFTool)，遵循[MIT协议](https://github.com/hycdes/GFTool/blob/master/LICENSE)。
+
 [121]:./img/o12.png  
 [122]:./img/b12.png  
 [131]:./img/o13.png  
