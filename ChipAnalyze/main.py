@@ -8,7 +8,9 @@ file_list = ['2B14',
              'BGM',
              'M2-5-0',
              'M2-5-2',
-             'M2-6-2']
+             'M2-6-2',
+             'Mk-153',
+             'Mk-153-52']
 path = '../GFChipDLX/'
 table = []
 
